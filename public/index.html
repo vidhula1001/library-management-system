@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Modern, automated-testing-ready Library Management System web application for books, members, issues, returns, and fine tracking.">
+  <title>Athena | Modern Library Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="sidebar-main">
+      <div class="sidebar-header" id="sidebar-header">
+        <div class="brand-icon" id="brand-logo">📚</div>
+        <div>
+          <div class="brand-title" id="brand-title">Athena LMS <span class="brand-badge">v1.0</span></div>
+          <p style="font-size: 11px; color: var(--text-muted);">Library System</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <button type="button" class="nav-link active" id="nav-tab-dashboard" data-target="section-dashboard">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          Dashboard
+        </button>
+
+        <button type="button" class="nav-link" id="nav-tab-books" data-target="section-books">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Books Catalog
+        </button>
+
+        <button type="button" class="nav-link" id="nav-tab-members" data-target="section-members">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          Members
+        </button>
+
+        <button type="button" class="nav-link" id="nav-tab-issues" data-target="section-issues">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+          Issue & Return
+        </button>
+
+        <button type="button" class="nav-link" id="nav-tab-fines" data-target="section-fines">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Fine Management
+        </button>
+
+        <button type="button" class="nav-link" id="nav-tab-transactions" data-target="section-transactions">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+          Transactions
+        </button>
+      </nav>
+
+      <div class="sidebar-footer" id="sidebar-footer">
+        <div><span class="status-dot"></span><span id="system-status-indicator">System Online</span></div>
+        <span style="font-size: 11px;">SQLite DB</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main" id="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar" id="app-header">
+        <div class="top-bar-title" id="page-header-info">
+          <h1 id="page-title">Library Overview</h1>
+          <p id="page-subtitle">Welcome to the software engineering library management portal</p>
+        </div>
+
+        <div class="top-bar-actions" id="top-bar-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-refresh-data" title="Refresh current view">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            Refresh
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Views -->
+      <div class="content-body" id="content-body">
+        
+        <!-- SECTION 1: DASHBOARD -->
+        <section class="view-section active" id="section-dashboard">
+          <!-- Statistics Cards Grid -->
+          <div class="stats-grid" id="dashboard-stats-grid">
+            <div class="stat-card" id="card-stat-total-books">
+              <div class="stat-header">
+                <span class="stat-title">Total Book Titles</span>
+                <div class="stat-icon">📖</div>
+              </div>
+              <div class="stat-value" id="stat-total-books">0</div>
+              <div class="stat-subtext" id="stat-total-copies-label">Physical Copies: <span id="stat-total-copies">0</span></div>
+            </div>
+
+            <div class="stat-card stat-available" id="card-stat-available-books">
+              <div class="stat-header">
+                <span class="stat-title">Available Books</span>
+                <div class="stat-icon">✅</div>
+              </div>
+              <div class="stat-value" id="stat-available-books">0</div>
+              <div class="stat-subtext">Ready for checkout</div>
+            </div>
+
+            <div class="stat-card" id="card-stat-members">
+              <div class="stat-header">
+                <span class="stat-title">Registered Members</span>
+                <div class="stat-icon">👥</div>
+              </div>
+              <div class="stat-value" id="stat-total-members">0</div>
+              <div class="stat-subtext">Active library cards</div>
+            </div>
+
+            <div class="stat-card stat-issued" id="card-stat-issued">
+              <div class="stat-header">
+                <span class="stat-title">Currently Issued</span>
+                <div class="stat-icon">🔄</div>
+              </div>
+              <div class="stat-value" id="stat-issued-books">0</div>
+              <div class="stat-subtext">Books in circulation</div>
+            </div>
+
+            <div class="stat-card stat-overdue" id="card-stat-overdue">
+              <div class="stat-header">
+                <span class="stat-title">Overdue Books</span>
+                <div class="stat-icon">⚠️</div>
+              </div>
+              <div class="stat-value" id="stat-overdue-books">0</div>
+              <div class="stat-subtext">Passed loan deadline</div>
+            </div>
+
+            <div class="stat-card stat-fines" id="card-stat-fines">
+              <div class="stat-header">
+                <span class="stat-title">Unpaid Fines</span>
+                <div class="stat-icon">💰</div>
+              </div>
+              <div class="stat-value" id="stat-pending-fines">$0.00</div>
+              <div class="stat-subtext" id="stat-fine-rate-label">Rate: <span id="stat-fine-rate">$2.00</span>/day</div>
+            </div>
+          </div>
+
+          <!-- Quick Shortcuts & Recent Activity -->
+          <div class="card" id="card-quick-actions">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Quick Actions</h2>
+                <p class="card-subtitle">Common circulation and cataloging tasks</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;" id="quick-action-buttons">
+              <button type="button" class="btn btn-primary" id="btn-quick-issue-book">
+                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Issue a Book
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-quick-add-book">
+                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                Add New Book
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-quick-add-member">
+                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                Register Member
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Transactions Card -->
+          <div class="card" id="card-recent-activity">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Recent Transactions</h2>
+                <p class="card-subtitle">Latest circulation issues and returns</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table-custom" id="table-recent-transactions">
+                <thead>
+                  <tr>
+                    <th>Tx ID</th>
+                    <th>Book Title</th>
+                    <th>ISBN</th>
+                    <th>Member</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-recent-transactions">
+                  <tr><td colspan="7" class="empty-state">Loading recent activity...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: BOOK MANAGEMENT -->
+        <section class="view-section" id="section-books">
+          <div class="card" id="card-books-container">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Book Catalog Management</h2>
+                <p class="card-subtitle">Search, view, register, edit, and organize library books</p>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-open-add-book-modal">
+                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Add New Book
+              </button>
+            </div>
+
+            <!-- Books Toolbar -->
+            <div class="toolbar" id="toolbar-books">
+              <div class="search-box" id="box-search-books">
+                <svg style="width: 18px; height: 18px; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="input-search-books" placeholder="Search by title, author, ISBN, category...">
+              </div>
+              <div class="filter-group">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-search-books">Search</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-search-books">Clear</button>
+              </div>
+            </div>
+
+            <!-- Books Table -->
+            <div class="table-responsive">
+              <table class="table-custom" id="table-books">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Total Copies</th>
+                    <th>Available Copies</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-books">
+                  <tr><td colspan="9" class="empty-state">Loading books catalog...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: MEMBER MANAGEMENT -->
+        <section class="view-section" id="section-members">
+          <div class="card" id="card-members-container">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Member Directory</h2>
+                <p class="card-subtitle">Register and manage library patrons and borrowing eligibility</p>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-open-add-member-modal">
+                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                Register New Member
+              </button>
+            </div>
+
+            <!-- Members Toolbar -->
+            <div class="toolbar" id="toolbar-members">
+              <div class="search-box" id="box-search-members">
+                <svg style="width: 18px; height: 18px; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="input-search-members" placeholder="Search by member code, name, email, phone...">
+              </div>
+              <div class="filter-group">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-search-members">Search</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-search-members">Clear</button>
+              </div>
+            </div>
+
+            <!-- Members Table -->
+            <div class="table-responsive">
+              <table class="table-custom" id="table-members">
+                <thead>
+                  <tr>
+                    <th>Member ID</th>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Phone</th>
+                    <th>Active Loans</th>
+                    <th>Pending Fines</th>
+                    <th>Member Since</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-members">
+                  <tr><td colspan="9" class="empty-state">Loading members directory...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: ISSUE & RETURN -->
+        <section class="view-section" id="section-issues">
+          <!-- Issue Book Form Card -->
+          <div class="card" id="card-issue-book-form">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Issue Book to Member</h2>
+                <p class="card-subtitle">Check out available book copies to registered members</p>
+              </div>
+            </div>
+
+            <!-- Inline Issue Feedback -->
+            <div class="alert-box alert-error" id="issue-form-error"></div>
+            <div class="alert-box alert-success" id="issue-form-success"></div>
+
+            <form id="form-issue-book" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="issue-select-book">Select Book <span class="required">*</span></label>
+                  <select class="form-select" id="issue-select-book" required>
+                    <option value="">-- Choose an available book --</option>
+                  </select>
+                  <div class="form-helper" id="issue-book-helper">Only books with available copies can be selected</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="issue-select-member">Select Member <span class="required">*</span></label>
+                  <select class="form-select" id="issue-select-member" required>
+                    <option value="">-- Choose a registered member --</option>
+                  </select>
+                  <div class="form-helper" id="issue-member-helper">Only active members can borrow books</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="issue-input-date">Issue Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="issue-input-date" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="issue-input-due-date">Due Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="issue-input-due-date" required>
+                  <div class="form-helper">Standard period: 14 days</div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                <button type="submit" class="btn btn-primary" id="btn-submit-issue">
+                  <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Confirm Book Issue
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Active Issued Books Table -->
+          <div class="card" id="card-active-issues">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Currently Issued Books</h2>
+                <p class="card-subtitle">Active borrowings awaiting return</p>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table-custom" id="table-active-issues">
+                <thead>
+                  <tr>
+                    <th>Tx ID</th>
+                    <th>Book Title</th>
+                    <th>ISBN</th>
+                    <th>Member</th>
+                    <th>Member ID</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Overdue Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-active-issues">
+                  <tr><td colspan="9" class="empty-state">Loading active borrowings...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: FINE MANAGEMENT -->
+        <section class="view-section" id="section-fines">
+          <!-- Fine Rules Configuration Card -->
+          <div class="card" id="card-fine-settings">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Fine Rule Configuration</h2>
+                <p class="card-subtitle">Customize overdue penalty rules and loan durations</p>
+              </div>
+            </div>
+
+            <!-- Inline Settings Feedback -->
+            <div class="alert-box alert-success" id="fine-settings-feedback"></div>
+
+            <form id="form-fine-settings" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="input-fine-rate">Fine Rate Per Day ($) <span class="required">*</span></label>
+                  <input type="number" step="0.25" min="0" class="form-control" id="input-fine-rate" placeholder="e.g. 2.00" required>
+                  <div class="form-helper">Amount billed for each day a returned book is past due</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="input-loan-days">Default Loan Period (Days) <span class="required">*</span></label>
+                  <input type="number" step="1" min="1" class="form-control" id="input-loan-days" placeholder="e.g. 14" required>
+                  <div class="form-helper">Default duration between issue date and due date</div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary" id="btn-save-fine-settings">
+                  Update Fine Settings
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Fines Summary Metrics -->
+          <div class="stats-grid" id="fines-stats-grid">
+            <div class="stat-card stat-overdue" id="card-fine-pending">
+              <div class="stat-header">
+                <span class="stat-title">Pending Uncollected Fines</span>
+                <div class="stat-icon">⏳</div>
+              </div>
+              <div class="stat-value" id="stat-fine-pending-amount">$0.00</div>
+              <div class="stat-subtext">Awaiting payment by members</div>
+            </div>
+
+            <div class="stat-card stat-available" id="card-fine-collected">
+              <div class="stat-header">
+                <span class="stat-title">Total Fines Collected</span>
+                <div class="stat-icon">💵</div>
+              </div>
+              <div class="stat-value" id="stat-fine-collected-amount">$0.00</div>
+              <div class="stat-subtext">Cleared and paid fines</div>
+            </div>
+
+            <div class="stat-card" id="card-fine-waived">
+              <div class="stat-header">
+                <span class="stat-title">Total Fines Waived</span>
+                <div class="stat-icon">🏷️</div>
+              </div>
+              <div class="stat-value" id="stat-fine-waived-amount">$0.00</div>
+              <div class="stat-subtext">Forgiven fines</div>
+            </div>
+          </div>
+
+          <!-- Fines Log Card -->
+          <div class="card" id="card-fines-log">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Fines Registry</h2>
+                <p class="card-subtitle">Complete ledger of overdue penalties and payment records</p>
+              </div>
+            </div>
+
+            <!-- Fines Toolbar -->
+            <div class="toolbar" id="toolbar-fines">
+              <div class="search-box" id="box-search-fines">
+                <svg style="width: 18px; height: 18px; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="input-search-fines" placeholder="Search fines by member or book...">
+              </div>
+              <div class="filter-group">
+                <select class="form-select" id="select-fine-status-filter" style="width: auto;">
+                  <option value="ALL">All Statuses</option>
+                  <option value="PENDING" selected>Pending Payment</option>
+                  <option value="PAID">Paid Fines</option>
+                  <option value="WAIVED">Waived Fines</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-search-fines">Search</button>
+              </div>
+            </div>
+
+            <!-- Fines Table -->
+            <div class="table-responsive">
+              <table class="table-custom" id="table-fines">
+                <thead>
+                  <tr>
+                    <th>Fine ID</th>
+                    <th>Member</th>
+                    <th>Member ID</th>
+                    <th>Book Title</th>
+                    <th>Days Overdue</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-fines">
+                  <tr><td colspan="9" class="empty-state">Loading fines registry...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 6: TRANSACTION HISTORY -->
+        <section class="view-section" id="section-transactions">
+          <div class="card" id="card-transactions-history">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Circulation Transaction History</h2>
+                <p class="card-subtitle">Comprehensive audit trail of all book issues, returns, and statuses</p>
+              </div>
+            </div>
+
+            <!-- Transactions Toolbar -->
+            <div class="toolbar" id="toolbar-transactions">
+              <div class="search-box" id="box-search-transactions">
+                <svg style="width: 18px; height: 18px; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="input-search-transactions" placeholder="Search by title, ISBN, member name, or code...">
+              </div>
+              <div class="filter-group">
+                <select class="form-select" id="select-tx-status-filter" style="width: auto;">
+                  <option value="ALL">All Transactions</option>
+                  <option value="ISSUED">Currently Issued</option>
+                  <option value="RETURNED">Returned</option>
+                  <option value="OVERDUE">Overdue</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-search-transactions">Filter</button>
+              </div>
+            </div>
+
+            <!-- Transactions Table -->
+            <div class="table-responsive">
+              <table class="table-custom" id="table-transactions">
+                <thead>
+                  <tr>
+                    <th>Tx ID</th>
+                    <th>Book Title</th>
+                    <th>ISBN</th>
+                    <th>Member</th>
+                    <th>Member ID</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Fine</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-transactions">
+                  <tr><td colspan="10" class="empty-state">Loading transactions history...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: ADD / EDIT BOOK -->
+  <div class="modal-backdrop" id="modal-book" role="dialog" aria-modal="true" aria-labelledby="modal-book-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-book-title">Add New Book</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-book-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-box alert-error" id="book-form-error"></div>
+
+        <form id="form-book" novalidate>
+          <input type="hidden" id="book-input-id" value="">
+
+          <div class="form-group">
+            <label class="form-label" for="book-input-title">Book Title <span class="required">*</span></label>
+            <input type="text" class="form-control" id="book-input-title" placeholder="e.g. Clean Code" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="book-input-author">Author(s) <span class="required">*</span></label>
+            <input type="text" class="form-control" id="book-input-author" placeholder="e.g. Robert C. Martin" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="book-input-isbn">ISBN <span class="required">*</span></label>
+              <input type="text" class="form-control" id="book-input-isbn" placeholder="e.g. 978-0132350884" required>
+              <div class="form-helper">Must be unique across the catalog</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="book-input-category">Category / Genre <span class="required">*</span></label>
+              <input type="text" class="form-control" id="book-input-category" placeholder="e.g. Computer Science" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="book-input-copies">Total Copies in Library <span class="required">*</span></label>
+            <input type="number" min="1" step="1" class="form-control" id="book-input-copies" placeholder="e.g. 5" required>
+            <div class="form-helper">Minimum 1 copy required</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-book">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-book">Save Book</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT MEMBER -->
+  <div class="modal-backdrop" id="modal-member" role="dialog" aria-modal="true" aria-labelledby="modal-member-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-member-title">Register Member</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-member-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-box alert-error" id="member-form-error"></div>
+
+        <form id="form-member" novalidate>
+          <input type="hidden" id="member-input-id" value="">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="member-input-code">Member Code / ID <span class="required">*</span></label>
+              <input type="text" class="form-control" id="member-input-code" placeholder="e.g. MEM-1006" required>
+              <div class="form-helper">Unique library card identifier</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="member-input-name">Full Name <span class="required">*</span></label>
+              <input type="text" class="form-control" id="member-input-name" placeholder="e.g. John Doe" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="member-input-email">Email Address <span class="required">*</span></label>
+            <input type="email" class="form-control" id="member-input-email" placeholder="e.g. john.doe@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="member-input-phone">Phone Number <span class="required">*</span></label>
+            <input type="text" class="form-control" id="member-input-phone" placeholder="e.g. 555-0199" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-member">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-member">Save Member</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RETURN BOOK CONFIRMATION -->
+  <div class="modal-backdrop" id="modal-return" role="dialog" aria-modal="true" aria-labelledby="modal-return-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-return-title">Process Book Return</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-return-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-box alert-error" id="return-form-error"></div>
+
+        <form id="form-return-book" novalidate>
+          <input type="hidden" id="return-input-tx-id" value="">
+
+          <div style="background-color: var(--bg-input); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;" id="return-details-summary">
+            <p style="margin-bottom: 8px;"><strong>Book:</strong> <span id="return-display-book-title"></span></p>
+            <p style="margin-bottom: 8px;"><strong>Borrower:</strong> <span id="return-display-member-name"></span></p>
+            <p><strong>Due Date:</strong> <span id="return-display-due-date" class="mono-text"></span></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="return-input-date">Return Date <span class="required">*</span></label>
+            <input type="date" class="form-control" id="return-input-date" required>
+          </div>
+
+          <!-- Dynamic Overdue & Fine Alert Preview -->
+          <div class="alert-box alert-info active" id="return-fine-preview">
+            Calculating fine status...
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-return">Cancel</button>
+        <button type="button" class="btn btn-success" id="btn-confirm-return">Confirm Return</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL NOTIFICATION BANNER / TOAST -->
+  <div id="notification-banner" role="alert" data-type="info">
+    <span id="notification-text">Notification message here</span>
+    <button type="button" id="notification-close" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
