@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { sendError } = require('../dbErrors');
 
 // Helper to validate non-empty string
 function isValidString(val) {
@@ -43,7 +44,7 @@ router.get('/', (req, res) => {
     res.json({ success: true, count: books.length, data: books });
   } catch (error) {
     console.error('Fetch books error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve books' });
+    return sendError(res, error, 'Failed to retrieve books');
   }
 });
 
@@ -72,7 +73,7 @@ router.get('/:id', (req, res) => {
     res.json({ success: true, data: book });
   } catch (error) {
     console.error('Fetch book error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve book' });
+    return sendError(res, error, 'Failed to retrieve book');
   }
 });
 
@@ -128,7 +129,7 @@ router.post('/', (req, res) => {
     });
   } catch (error) {
     console.error('Create book error:', error);
-    res.status(500).json({ success: false, message: 'Failed to add book to catalog' });
+    return sendError(res, error, 'Failed to add book to catalog');
   }
 });
 
@@ -201,7 +202,7 @@ router.put('/:id', (req, res) => {
     });
   } catch (error) {
     console.error('Update book error:', error);
-    res.status(500).json({ success: false, message: 'Failed to update book details' });
+    return sendError(res, error, 'Failed to update book details');
   }
 });
 
@@ -241,7 +242,7 @@ router.delete('/:id', (req, res) => {
     });
   } catch (error) {
     console.error('Delete book error:', error);
-    res.status(500).json({ success: false, message: 'Failed to delete book' });
+    return sendError(res, error, 'Failed to delete book');
   }
 });
 

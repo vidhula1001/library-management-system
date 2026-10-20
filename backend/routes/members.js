@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { sendError } = require('../dbErrors');
 
 function isValidString(val) {
   return typeof val === 'string' && val.trim().length > 0;
@@ -56,7 +57,7 @@ router.get('/', (req, res) => {
     res.json({ success: true, count: members.length, data: members });
   } catch (error) {
     console.error('Fetch members error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve members' });
+    return sendError(res, error, 'Failed to retrieve members');
   }
 });
 
@@ -118,7 +119,7 @@ router.get('/:id', (req, res) => {
     });
   } catch (error) {
     console.error('Fetch member error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve member details' });
+    return sendError(res, error, 'Failed to retrieve member details');
   }
 });
 
@@ -188,7 +189,7 @@ router.post('/', (req, res) => {
     });
   } catch (error) {
     console.error('Register member error:', error);
-    res.status(500).json({ success: false, message: 'Failed to register member' });
+    return sendError(res, error, 'Failed to register member');
   }
 });
 
@@ -243,7 +244,7 @@ router.put('/:id', (req, res) => {
     });
   } catch (error) {
     console.error('Update member error:', error);
-    res.status(500).json({ success: false, message: 'Failed to update member profile' });
+    return sendError(res, error, 'Failed to update member profile');
   }
 });
 
@@ -292,7 +293,7 @@ router.delete('/:id', (req, res) => {
     });
   } catch (error) {
     console.error('Delete member error:', error);
-    res.status(500).json({ success: false, message: 'Failed to delete member' });
+    return sendError(res, error, 'Failed to delete member');
   }
 });
 

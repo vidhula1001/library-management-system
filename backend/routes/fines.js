@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { sendError } = require('../dbErrors');
 
 // GET /api/fines - List all fines with member and transaction information
 router.get('/', (req, res) => {
@@ -72,7 +73,7 @@ router.get('/', (req, res) => {
     });
   } catch (error) {
     console.error('Fetch fines error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve fines list' });
+    return sendError(res, error, 'Failed to retrieve fines list');
   }
 });
 
@@ -96,7 +97,7 @@ router.get('/settings', (req, res) => {
     });
   } catch (error) {
     console.error('Fetch fine settings error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve fine settings' });
+    return sendError(res, error, 'Failed to retrieve fine settings');
   }
 });
 
@@ -129,7 +130,7 @@ router.put('/settings', (req, res) => {
     });
   } catch (error) {
     console.error('Update fine settings error:', error);
-    res.status(500).json({ success: false, message: 'Failed to update fine settings' });
+    return sendError(res, error, 'Failed to update fine settings');
   }
 });
 
@@ -166,7 +167,7 @@ router.post('/:id/pay', (req, res) => {
     });
   } catch (error) {
     console.error('Pay fine error:', error);
-    res.status(500).json({ success: false, message: 'Failed to process fine payment' });
+    return sendError(res, error, 'Failed to process fine payment');
   }
 });
 
@@ -203,7 +204,7 @@ router.post('/:id/waive', (req, res) => {
     });
   } catch (error) {
     console.error('Waive fine error:', error);
-    res.status(500).json({ success: false, message: 'Failed to waive fine' });
+    return sendError(res, error, 'Failed to waive fine');
   }
 });
 

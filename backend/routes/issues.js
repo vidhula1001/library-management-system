@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { dbErrorMessage } = require('../dbErrors');
 
 // Helper to calculate difference in calendar days
 function calculateDaysDifference(dateStr1, dateStr2) {
@@ -158,7 +159,7 @@ router.post('/', (req, res) => {
     });
   } catch (error) {
     console.error('Issue book error:', error.message);
-    res.status(400).json({ success: false, message: error.message || 'Failed to issue book' });
+    res.status(400).json({ success: false, message: (dbErrorMessage(error) || error).message || 'Failed to issue book' });
   }
 });
 
@@ -258,7 +259,7 @@ router.post('/return', (req, res) => {
     });
   } catch (error) {
     console.error('Return book error:', error.message);
-    res.status(400).json({ success: false, message: error.message || 'Failed to return book' });
+    res.status(400).json({ success: false, message: (dbErrorMessage(error) || error).message || 'Failed to return book' });
   }
 });
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { sendError } = require('../dbErrors');
 
 // GET /api/dashboard - Summary statistics and recent activity
 router.get('/', (req, res) => {
@@ -88,7 +89,7 @@ router.get('/', (req, res) => {
     });
   } catch (error) {
     console.error('Dashboard stats error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve dashboard statistics' });
+    return sendError(res, error, 'Failed to retrieve dashboard statistics');
   }
 });
 

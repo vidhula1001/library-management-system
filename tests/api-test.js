@@ -108,6 +108,17 @@ async function runTests() {
     const transactions = await request('GET', '/api/transactions');
     check('/api/transactions', transactions.status === 200, `Count: ${transactions.data.count}`);
 
+    // 12. Friendly database error messages
+    const { dbErrorMessage } = require('../backend/dbErrors');
+    const db = require('../database/db');
+    const tryDb = sql => { try { db.exec(`SAVEPOINT t; ${sql}`); return null; } catch (e) { return e; } finally { db.exec('ROLLBACK TO t; RELEASE t'); } };
+    const negCopies = dbErrorMessage(tryDb('UPDATE books SET available_copies = total_copies + 1 WHERE id = 1'));
+    check('Friendly CHECK message', negCopies && negCopies.status === 400 && /cannot be more than/.test(negCopies.message), negCopies && negCopies.message);
+    const dupIsbn = dbErrorMessage(tryDb("INSERT INTO books (title, author, isbn, category, total_copies, available_copies) SELECT 'x','y',isbn,'z',1,1 FROM books LIMIT 1"));
+    check('Friendly UNIQUE message', dupIsbn && dupIsbn.status === 409 && /ISBN/.test(dupIsbn.message), dupIsbn && dupIsbn.message);
+    const fk = dbErrorMessage(tryDb('DELETE FROM members WHERE id = (SELECT member_id FROM transactions LIMIT 1)'));
+    check('Friendly FOREIGN KEY message', fk && fk.status === 409 && /linked/.test(fk.message), fk && fk.message);
+    check('Non-DB errors ignored', dbErrorMessage(new Error('boom')) === null);
   } catch (err) {
     console.error('API Test Error:', err);
     failures++;

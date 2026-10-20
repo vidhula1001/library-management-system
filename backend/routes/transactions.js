@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
+const { sendError } = require('../dbErrors');
 
 // GET /api/transactions - Full transaction history with filters and search
 router.get('/', (req, res) => {
@@ -78,7 +79,7 @@ router.get('/', (req, res) => {
     res.json({ success: true, count: enriched.length, data: enriched });
   } catch (error) {
     console.error('Fetch transactions error:', error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve transaction history' });
+    return sendError(res, error, 'Failed to retrieve transaction history');
   }
 });
 

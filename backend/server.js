@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const { dbErrorMessage } = require('./dbErrors');
 const cors = require('cors');
 const config = require('./config');
 
@@ -119,9 +120,10 @@ app.use((req, res) => {
 // Centralized error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled server error:', err);
-  res.status(500).json({
+  const friendly = dbErrorMessage(err);
+  res.status(friendly ? friendly.status : 500).json({
     success: false,
-    message: err.message || 'Internal Server Error'
+    message: friendly ? friendly.message : 'Something went wrong on the server. Please try again.'
   });
 });
 
