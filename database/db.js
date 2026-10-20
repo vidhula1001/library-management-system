@@ -13,8 +13,13 @@ if (!fs.existsSync(dbDir)) {
 
 const db = new Database(DB_PATH);
 
+// WAL mode: faster writes and readers don't block writers
+db.pragma('journal_mode = WAL');
+
 // Enforce foreign key constraints
 db.pragma('foreign_keys = ON');
+
+const SCHEMA_VERSION = 1;
 
 // Password hashing utility using Node built-in crypto (no extra packages)
 function hashPassword(password, salt) {
@@ -25,11 +30,58 @@ function generateSalt() {
   return crypto.randomBytes(32).toString('hex');
 }
 
+// Upgrade a pre-v1 database: rebuild tables so new CHECK/UNIQUE constraints apply,
+// copying all existing rows. Fails (and rolls back) if existing data violates the rules.
+function migrateToV1(schemaSql) {
+  const tables = ['books', 'members', 'transactions', 'fines', 'users'];
+  const backupPath = `${DB_PATH}.pre-v1.bak`;
+  if (DB_PATH !== ':memory:' && !fs.existsSync(backupPath)) {
+    db.exec(`VACUUM INTO '${backupPath.replace(/'/g, "''")}'`);
+    console.log(`  [DB] Backup saved to ${backupPath}`);
+  }
+
+  db.pragma('foreign_keys = OFF');
+  try {
+    db.transaction(() => {
+      const oldIndexes = db.prepare(
+        "SELECT name FROM sqlite_master WHERE type = 'index' AND name LIKE 'idx_%'"
+      ).all();
+      oldIndexes.forEach(({ name }) => db.exec(`DROP INDEX IF EXISTS "${name}"`));
+
+      tables.forEach(t => db.exec(`ALTER TABLE ${t} RENAME TO ${t}_old`));
+      db.exec(schemaSql);
+      tables.forEach(t => {
+        const cols = db.prepare(`PRAGMA table_info(${t}_old)`).all().map(c => c.name).join(', ');
+        db.exec(`INSERT INTO ${t} (${cols}) SELECT ${cols} FROM ${t}_old`);
+      });
+      [...tables].reverse().forEach(t => db.exec(`DROP TABLE ${t}_old`));
+
+      const fkErrors = db.pragma('foreign_key_check');
+      if (fkErrors.length) throw new Error(`Foreign key violations: ${JSON.stringify(fkErrors)}`);
+      db.pragma(`user_version = ${SCHEMA_VERSION}`);
+    })();
+    console.log('  [DB] Migrated database to schema v1');
+  } finally {
+    db.pragma('foreign_keys = ON');
+  }
+}
+
 // Initialize database tables from schema.sql
 function initDb() {
   const schemaPath = path.join(__dirname, 'schema.sql');
   const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-  db.exec(schemaSql);
+
+  const version = db.pragma('user_version', { simple: true });
+  const hasTables = db.prepare(
+    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'books'"
+  ).get();
+
+  if (hasTables && version < SCHEMA_VERSION) {
+    migrateToV1(schemaSql);
+  } else {
+    db.exec(schemaSql);
+    if (version < SCHEMA_VERSION) db.pragma(`user_version = ${SCHEMA_VERSION}`);
+  }
 
   // Initialize default settings if not exists
   const insertSetting = db.prepare(`
