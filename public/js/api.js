@@ -1,12 +1,46 @@
 // API Client Module for Library Management System
-// Centralizes all fetch calls with consistent error handling
+// Centralizes all fetch calls with consistent error handling and auth token injection
 
 const API = {
-  // Generic helper for JSON requests
+  // --------------------------------------------------------------------------
+  // Auth helpers
+  // --------------------------------------------------------------------------
+  getToken() {
+    return localStorage.getItem('lms_token') || '';
+  },
+
+  getUser() {
+    try {
+      return JSON.parse(localStorage.getItem('lms_user') || 'null');
+    } catch {
+      return null;
+    }
+  },
+
+  isLibrarian() {
+    const user = this.getUser();
+    return user && user.role === 'LIBRARIAN';
+  },
+
+  isMember() {
+    const user = this.getUser();
+    return user && user.role === 'MEMBER';
+  },
+
+  clearSession() {
+    localStorage.removeItem('lms_token');
+    localStorage.removeItem('lms_user');
+  },
+
+  // --------------------------------------------------------------------------
+  // Generic helper for JSON requests – injects Bearer token automatically
+  // --------------------------------------------------------------------------
   async request(endpoint, options = {}) {
+    const token = this.getToken();
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         ...(options.headers || {})
       },
       ...options
@@ -18,6 +52,14 @@ const API = {
 
     try {
       const response = await fetch(endpoint, config);
+
+      // If 401 Unauthorized – session expired or missing; redirect to login
+      if (response.status === 401) {
+        this.clearSession();
+        window.location.replace('/login.html');
+        return;
+      }
+
       const data = await response.json().catch(() => ({
         success: false,
         message: 'Invalid server response'
@@ -29,17 +71,51 @@ const API = {
 
       return data;
     } catch (error) {
-      console.error(`API Error [${endpoint}]:`, error);
+      // Don't log redirect errors
+      if (!(error instanceof TypeError && error.message.includes('Failed to fetch'))) {
+        console.error(`API Error [${endpoint}]:`, error);
+      }
       throw error;
     }
   },
 
+  // --------------------------------------------------------------------------
+  // Auth endpoints (no token needed – these are public)
+  // --------------------------------------------------------------------------
+  async login(username, password) {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    return response.json();
+  },
+
+  async logout() {
+    const token = this.getToken();
+    if (token) {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).catch(() => {}); // Fire and forget
+    }
+    this.clearSession();
+  },
+
+  async getMe() {
+    return this.request('/api/auth/me');
+  },
+
+  // --------------------------------------------------------------------------
   // 1. Dashboard
+  // --------------------------------------------------------------------------
   getDashboardStats() {
     return this.request('/api/dashboard');
   },
 
+  // --------------------------------------------------------------------------
   // 2. Books
+  // --------------------------------------------------------------------------
   getBooks(search = '') {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';
     return this.request(`/api/books${query}`);
@@ -69,7 +145,9 @@ const API = {
     });
   },
 
+  // --------------------------------------------------------------------------
   // 3. Members
+  // --------------------------------------------------------------------------
   getMembers(search = '') {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';
     return this.request(`/api/members${query}`);
@@ -99,7 +177,9 @@ const API = {
     });
   },
 
+  // --------------------------------------------------------------------------
   // 4. Issues & Returns
+  // --------------------------------------------------------------------------
   getActiveIssues() {
     return this.request('/api/issues/active');
   },
@@ -118,7 +198,9 @@ const API = {
     });
   },
 
+  // --------------------------------------------------------------------------
   // 5. Fines
+  // --------------------------------------------------------------------------
   getFines(status = '', search = '') {
     const params = new URLSearchParams();
     if (status && status !== 'ALL') params.append('status', status);
@@ -152,7 +234,9 @@ const API = {
     });
   },
 
+  // --------------------------------------------------------------------------
   // 6. Transactions
+  // --------------------------------------------------------------------------
   getTransactions(status = 'ALL', search = '') {
     const params = new URLSearchParams();
     if (status && status !== 'ALL') params.append('status', status);

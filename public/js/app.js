@@ -4,6 +4,79 @@
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================================================
+  // AUTH GUARD — Redirect to login if no valid session
+  // ==========================================================================
+  const sessionUser = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('lms_user') || 'null');
+    } catch { return null; }
+  })();
+  const sessionToken = localStorage.getItem('lms_token');
+
+  if (!sessionToken || !sessionUser) {
+    window.location.replace('/login.html');
+    return;
+  }
+
+  // ==========================================================================
+  // ROLE-BASED UI SETUP
+  // ==========================================================================
+  const currentRole = sessionUser.role || 'LIBRARIAN';
+  const isLibrarian = currentRole === 'LIBRARIAN';
+  const displayName = sessionUser.memberName || sessionUser.username || 'User';
+
+  // 1. Show user profile panel in sidebar
+  const profilePanel = document.getElementById('sidebar-user-profile');
+  if (profilePanel) profilePanel.style.display = 'block';
+
+  const sidebarName = document.getElementById('sidebar-user-name');
+  if (sidebarName) sidebarName.textContent = displayName;
+
+  const sidebarRole = document.getElementById('sidebar-user-role');
+  if (sidebarRole) sidebarRole.textContent = isLibrarian ? 'Librarian' : `Member · ${sessionUser.memberCode || ''}`;
+
+  const sidebarAvatar = document.getElementById('sidebar-user-avatar');
+  if (sidebarAvatar) {
+    sidebarAvatar.textContent = isLibrarian ? '🏛️' : '👤';
+    sidebarAvatar.style.background = isLibrarian
+      ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+      : 'linear-gradient(135deg, #10b981, #059669)';
+  }
+
+  // 2. Show user chip in top bar
+  const userChip = document.getElementById('top-bar-user-chip');
+  if (userChip) userChip.style.display = 'flex';
+
+  const topBarLabel = document.getElementById('top-bar-user-label');
+  if (topBarLabel) topBarLabel.textContent = displayName;
+
+  const topBarIcon = document.getElementById('top-bar-user-icon');
+  if (topBarIcon) topBarIcon.textContent = isLibrarian ? '🏛️' : '👤';
+
+  const topBarBadge = document.getElementById('top-bar-role-badge');
+  if (topBarBadge) {
+    topBarBadge.textContent = isLibrarian ? 'LIBRARIAN' : 'MEMBER';
+    if (!isLibrarian) {
+      topBarBadge.style.background = 'rgba(16,185,129,0.2)';
+      topBarBadge.style.color = '#6ee7b7';
+    }
+  }
+
+  // 3. Hide nav items the current role isn't allowed to access
+  document.querySelectorAll('.nav-link[data-role-required]').forEach(btn => {
+    const required = btn.getAttribute('data-role-required');
+    if (required && required !== currentRole) {
+      btn.style.display = 'none';
+    }
+  });
+
+  // 4. Logout button
+  document.getElementById('btn-logout')?.addEventListener('click', async () => {
+    await API.logout();
+    window.location.replace('/login.html');
+  });
+
   // Application State
   const state = {
     currentTab: 'section-dashboard',
@@ -19,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     selectedReturnTx: null
   };
+
 
   // --------------------------------------------------------------------------
   // Utility & Notification Helpers

@@ -1,4 +1,5 @@
 const db = require('./db');
+const { hashPassword, generateSalt } = require('./db');
 
 function seedDatabase() {
   console.log('Seeding Library Management System database...');
@@ -9,6 +10,8 @@ function seedDatabase() {
     db.prepare('DELETE FROM fines').run();
     db.prepare('DELETE FROM transactions').run();
     db.prepare('DELETE FROM books').run();
+    // Remove only MEMBER-role users (keep the admin librarian)
+    db.prepare("DELETE FROM users WHERE role = 'MEMBER'").run();
     db.prepare('DELETE FROM members').run();
     db.prepare("DELETE FROM sqlite_sequence WHERE name IN ('books', 'members', 'transactions', 'fines')").run();
 
@@ -35,10 +38,15 @@ function seedDatabase() {
       bookIds.push(res.lastInsertRowid);
     }
 
-    // 3. Insert sample members
+    // 3. Insert sample members and corresponding user accounts
     const insertMember = db.prepare(`
       INSERT INTO members (member_code, name, email, phone, membership_date, status)
       VALUES (?, ?, ?, ?, ?, ?)
+    `);
+
+    const insertUser = db.prepare(`
+      INSERT OR IGNORE INTO users (username, password_hash, salt, role, member_id)
+      VALUES (?, ?, ?, 'MEMBER', ?)
     `);
 
     const memberIds = [];
@@ -52,41 +60,45 @@ function seedDatabase() {
 
     for (const member of sampleMembers) {
       const res = insertMember.run(...member);
-      memberIds.push(res.lastInsertRowid);
+      const memberId = res.lastInsertRowid;
+      memberIds.push(memberId);
+
+      // Create a MEMBER user account: username = member_code, password = email
+      const [memberCode, , email] = member;
+      const salt = generateSalt();
+      const passwordHash = hashPassword(email, salt);
+      insertUser.run(memberCode, passwordHash, salt, memberId);
     }
 
     // 4. Insert sample transactions and fines
-    // Today's date helpers
     const now = new Date();
     const formatDate = (d) => d.toISOString().split('T')[0];
 
-    // Current date - 5 days ago (issued)
     const fiveDaysAgo = new Date(now);
     fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
 
-    // Due in 9 days
     const dueInNineDays = new Date(now);
     dueInNineDays.setDate(dueInNineDays.getDate() + 9);
 
     // Transaction 1: Alice has Clean Code currently issued (active)
-    const t1 = db.prepare(`
+    db.prepare(`
       INSERT INTO transactions (book_id, member_id, issue_date, due_date, status)
       VALUES (?, ?, ?, ?, ?)
     `).run(bookIds[0], memberIds[0], formatDate(fiveDaysAgo), formatDate(dueInNineDays), 'ISSUED');
 
     // Transaction 2: Bob has Design Patterns currently issued (active)
-    const t2 = db.prepare(`
+    db.prepare(`
       INSERT INTO transactions (book_id, member_id, issue_date, due_date, status)
       VALUES (?, ?, ?, ?, ?)
     `).run(bookIds[1], memberIds[1], formatDate(fiveDaysAgo), formatDate(dueInNineDays), 'ISSUED');
 
     // Transaction 3: Carol has Pragmatic Programmer currently issued (active)
-    const t3 = db.prepare(`
+    db.prepare(`
       INSERT INTO transactions (book_id, member_id, issue_date, due_date, status)
       VALUES (?, ?, ?, ?, ?)
     `).run(bookIds[2], memberIds[2], formatDate(fiveDaysAgo), formatDate(dueInNineDays), 'ISSUED');
 
-    // Transaction 4: David borrowed and returned To Kill a Mockingbird on time (returned)
+    // Transaction 4: David borrowed and returned To Kill a Mockingbird on time
     const twentyDaysAgo = new Date(now);
     twentyDaysAgo.setDate(twentyDaysAgo.getDate() - 20);
     const sixDaysAgo = new Date(now);
@@ -121,6 +133,13 @@ function seedDatabase() {
 
   seedTransaction();
   console.log('Database seeded successfully with sample books, members, transactions, and fines.');
+  console.log('\n  Member Login Credentials (username = Member Code, password = Email):');
+  console.log('  MEM-1001 / alice.johnson@example.com');
+  console.log('  MEM-1002 / bob.smith@example.com');
+  console.log('  MEM-1003 / carol.davis@example.com');
+  console.log('  MEM-1004 / david.wilson@example.com');
+  console.log('  MEM-1005 / emma.watson@example.com');
+  console.log('\n  Librarian Login: admin / admin123');
 }
 
 if (require.main === module) {

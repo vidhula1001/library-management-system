@@ -62,6 +62,18 @@ CREATE TABLE IF NOT EXISTS fines (
   FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE RESTRICT
 );
 
+-- 6. Users Table (for authentication)
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  salt TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'MEMBER', -- 'LIBRARIAN', 'MEMBER'
+  member_id INTEGER,                   -- nullable: links MEMBER users to their member record
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
+);
+
 -- Indexes for performance & quick searches
 CREATE INDEX IF NOT EXISTS idx_books_isbn ON books(isbn);
 CREATE INDEX IF NOT EXISTS idx_books_title ON books(title);
@@ -69,3 +81,4 @@ CREATE INDEX IF NOT EXISTS idx_members_code ON members(member_code);
 CREATE INDEX IF NOT EXISTS idx_members_email ON members(email);
 CREATE INDEX IF NOT EXISTS idx_transactions_status ON transactions(status);
 CREATE INDEX IF NOT EXISTS idx_fines_status ON fines(status);
+CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
