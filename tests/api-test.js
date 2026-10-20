@@ -2,9 +2,10 @@ const app = require('../backend/server');
 const http = require('http');
 
 let server;
+let authToken = null;
 const PORT = 3099;
 
-function request(method, path, body = null) {
+function request(method, path, body = null, token = authToken) {
   return new Promise((resolve, reject) => {
     const postData = body ? JSON.stringify(body) : null;
     const req = http.request(
@@ -15,6 +16,7 @@ function request(method, path, body = null) {
         method,
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
           ...(postData ? { 'Content-Length': Buffer.byteLength(postData) } : {})
         }
       },
@@ -40,24 +42,47 @@ function request(method, path, body = null) {
   });
 }
 
+let failures = 0;
+function check(name, condition, extra = '') {
+  console.log(`[${condition ? 'PASS' : 'FAIL'}] ${name}${extra ? ' - ' + extra : ''}`);
+  if (!condition) failures++;
+}
+
 async function runTests() {
   console.log('--- Starting API Route Verification ---');
   server = app.listen(PORT);
 
   try {
-    // 1. Health
+    // 1. Health (public)
     const health = await request('GET', '/api/health');
-    console.log('[PASS] /api/health:', health.status === 200);
+    check('/api/health', health.status === 200);
 
-    // 2. Dashboard
+    // 2. Auth: protected routes reject anonymous requests
+    const anon = await request('GET', '/api/dashboard', null, null);
+    check('Anonymous request rejected', anon.status === 401, `status ${anon.status}`);
+
+    // 3. Auth: wrong password rejected
+    const badLogin = await request('POST', '/api/auth/login', { username: 'admin', password: 'wrong' }, null);
+    check('Wrong password rejected', badLogin.status === 401);
+
+    // 4. Auth: librarian login
+    const login = await request('POST', '/api/auth/login', { username: 'admin', password: 'admin123' }, null);
+    authToken = login.data && login.data.data && login.data.data.token;
+    check('Librarian login', login.status === 200 && !!authToken);
+    if (!authToken) throw new Error('Cannot continue without auth token');
+
+    const me = await request('GET', '/api/auth/me');
+    check('/api/auth/me', me.status === 200 && me.data.data.role === 'LIBRARIAN');
+
+    // 5. Dashboard
     const dashboard = await request('GET', '/api/dashboard');
-    console.log('[PASS] /api/dashboard:', dashboard.status === 200, 'Total Books:', dashboard.data.data.totalTitles);
+    check('/api/dashboard', dashboard.status === 200, `Total Books: ${dashboard.data.data && dashboard.data.data.totalTitles}`);
 
-    // 3. Books listing
+    // 6. Books listing
     const books = await request('GET', '/api/books');
-    console.log('[PASS] /api/books:', books.status === 200, 'Count:', books.data.count);
+    check('/api/books', books.status === 200, `Count: ${books.data.count}`);
 
-    // 4. Duplicate ISBN rejection test
+    // 7. Duplicate ISBN rejection test
     const dupBook = await request('POST', '/api/books', {
       title: 'Test Clean Code Duplicate',
       author: 'Test Author',
@@ -65,29 +90,36 @@ async function runTests() {
       category: 'Computer Science',
       total_copies: 2
     });
-    console.log('[PASS] Duplicate ISBN rejection:', dupBook.status === 400);
+    check('Duplicate ISBN rejection', dupBook.status === 400);
 
-    // 5. Members listing
+    // 8. Members listing
     const members = await request('GET', '/api/members');
-    console.log('[PASS] /api/members:', members.status === 200, 'Count:', members.data.count);
+    check('/api/members', members.status === 200, `Count: ${members.data.count}`);
 
-    // 6. Active issues
+    // 9. Active issues
     const activeIssues = await request('GET', '/api/issues/active');
-    console.log('[PASS] /api/issues/active:', activeIssues.status === 200, 'Count:', activeIssues.data.count);
+    check('/api/issues/active', activeIssues.status === 200, `Count: ${activeIssues.data.count}`);
 
-    // 7. Fines listing
+    // 10. Fines listing
     const fines = await request('GET', '/api/fines');
-    console.log('[PASS] /api/fines:', fines.status === 200, 'Count:', fines.data.count);
+    check('/api/fines', fines.status === 200, `Count: ${fines.data.count}`);
 
-    // 8. Transactions listing
+    // 11. Transactions listing
     const transactions = await request('GET', '/api/transactions');
-    console.log('[PASS] /api/transactions:', transactions.status === 200, 'Count:', transactions.data.count);
+    check('/api/transactions', transactions.status === 200, `Count: ${transactions.data.count}`);
 
-    console.log('--- All API Verifications Passed Successfully ---');
   } catch (err) {
     console.error('API Test Error:', err);
+    failures++;
   } finally {
     server.close();
+  }
+
+  if (failures) {
+    console.log(`--- ${failures} API check(s) FAILED ---`);
+    process.exitCode = 1;
+  } else {
+    console.log('--- All API Verifications Passed Successfully ---');
   }
 }
 
