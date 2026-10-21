@@ -396,9 +396,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById('select-book-category-filter')?.addEventListener('change', (e) => {
+    const cat = e.target.value.trim();
+    loadBooks(cat);
+  });
+
   document.getElementById('btn-clear-search-books')?.addEventListener('click', () => {
     const input = document.getElementById('input-search-books');
     if (input) input.value = '';
+    const catSelect = document.getElementById('select-book-category-filter');
+    if (catSelect) catSelect.value = '';
     loadBooks('');
   });
 

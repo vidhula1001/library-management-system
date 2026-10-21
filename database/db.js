@@ -48,13 +48,15 @@ function migrateToV1(schemaSql) {
       ).all();
       oldIndexes.forEach(({ name }) => db.exec(`DROP INDEX IF EXISTS "${name}"`));
 
-      tables.forEach(t => db.exec(`ALTER TABLE ${t} RENAME TO ${t}_old`));
+      const existingTables = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map(r => r.name);
+      const tablesToMigrate = tables.filter(t => existingTables.includes(t));
+      tablesToMigrate.forEach(t => db.exec(`ALTER TABLE ${t} RENAME TO ${t}_old`));
       db.exec(schemaSql);
-      tables.forEach(t => {
+      tablesToMigrate.forEach(t => {
         const cols = db.prepare(`PRAGMA table_info(${t}_old)`).all().map(c => c.name).join(', ');
         db.exec(`INSERT INTO ${t} (${cols}) SELECT ${cols} FROM ${t}_old`);
       });
-      [...tables].reverse().forEach(t => db.exec(`DROP TABLE ${t}_old`));
+      [...tablesToMigrate].reverse().forEach(t => db.exec(`DROP TABLE ${t}_old`));
 
       const fkErrors = db.pragma('foreign_key_check');
       if (fkErrors.length) throw new Error(`Foreign key violations: ${JSON.stringify(fkErrors)}`);

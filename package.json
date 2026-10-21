@@ -8,6 +8,9 @@
     "dev": "node --watch backend/server.js",
     "seed": "node database/seed.js",
     "test": "node tests/run-tests.js",
+    "test:part-a": "node tests/run-tests.js --part=a",
+    "test:part-b": "node tests/run-tests.js --part=b",
+    "test:all": "node tests/run-tests.js --all",
     "test:api": "node tests/api-test.js",
     "test:selenium": "node tests/run-tests.js"
   },

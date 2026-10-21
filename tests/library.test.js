@@ -35,6 +35,26 @@ class LibraryTestSuite {
     this.baseUrl = baseUrl;
   }
 
+  // TEST 0: Authentication - Librarian login
+  async testLogin() {
+    console.log('  -> Executing: testLogin()');
+    await this.driver.get(`${this.baseUrl}/login.html`);
+
+    const usernameInput = await waitForElement(this.driver, By.id('login-input-username'));
+    const passwordInput = await waitForElement(this.driver, By.id('login-input-password'));
+    const submitBtn = await waitForElement(this.driver, By.id('btn-login-submit'));
+
+    await usernameInput.clear();
+    await usernameInput.sendKeys('admin');
+    await passwordInput.clear();
+    await passwordInput.sendKeys('admin123');
+    await submitBtn.click();
+
+    // Wait until redirected to main dashboard
+    await waitForElement(this.driver, By.id('stat-total-books'));
+    console.log('     [OK] Logged in successfully as Librarian.');
+  }
+
   // TEST 1: Dashboard loads correctly with statistics
   async testDashboard() {
     console.log('  -> Executing: testDashboard()');
