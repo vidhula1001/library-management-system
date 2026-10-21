@@ -296,6 +296,8 @@ class PartATestSuite {
     await authorInput.clear();
 
     const saveBtn = await this.driver.findElement(By.id('btn-save-book'));
+    await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", saveBtn);
+    await sleep(100);
     await saveBtn.click();
     await sleep(200);
 
@@ -312,6 +314,8 @@ class PartATestSuite {
     await isbnInput.clear();
 
     const saveBtn = await this.driver.findElement(By.id('btn-save-book'));
+    await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", saveBtn);
+    await sleep(100);
     await saveBtn.click();
     await sleep(200);
 

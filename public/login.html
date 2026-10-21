@@ -534,12 +534,12 @@
     // Login Page Logic
     // ==========================================================================
 
-    // Redirect if already logged in
-    (function checkExistingSession() {
-      const token = localStorage.getItem('lms_token');
-      if (token) {
-        window.location.replace('/index.html');
-      }
+    // Clear any previous session when arriving on login page so users can sign in or test credentials
+    (function clearPreviousSession() {
+      try {
+        localStorage.removeItem('lms_token');
+        localStorage.removeItem('lms_user');
+      } catch (e) {}
     })();
 
     const state = { role: 'LIBRARIAN' };

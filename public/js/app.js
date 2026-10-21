@@ -476,13 +476,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (!author) {
-      errBox.textContent = 'Author name is required and cannot be empty.';
+      errBox.textContent = 'Author is required and cannot be empty.';
       errBox.classList.add('active');
       document.getElementById('book-input-author')?.focus();
       return;
     }
     if (!isbn) {
-      errBox.textContent = 'ISBN identifier is required and cannot be empty.';
+      errBox.textContent = 'ISBN is required and cannot be empty.';
       errBox.classList.add('active');
       document.getElementById('book-input-isbn')?.focus();
       return;

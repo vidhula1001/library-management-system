@@ -702,7 +702,7 @@ body {
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 1100;
   padding: 20px;
 }
 
@@ -810,7 +810,7 @@ body {
 /* Global Notification Toast */
 #notification-banner {
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   right: 24px;
   min-width: 320px;
   max-width: 480px;
@@ -823,12 +823,22 @@ body {
   justify-content: space-between;
   gap: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1050;
+  pointer-events: none;
+  animation: slideDownToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #notification-banner.active {
   display: flex;
+}
+
+#notification-banner button {
+  pointer-events: auto;
+}
+
+@keyframes slideDownToast {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 #notification-banner.toast-success {

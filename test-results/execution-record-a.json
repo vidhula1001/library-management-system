@@ -42,10 +42,10 @@
     "preconditions": "On login page",
     "testData": "Username: invalid_librarian_xyz, Password: admin123",
     "expected": "Login is rejected",
-    "actual": "Error: Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5019ms",
-    "status": "FAILED",
-    "evidence": "FAIL_TC004.png",
-    "error": "Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5019ms"
+    "actual": "Login rejected with message: \"⚠️\nInvalid username or password.\"",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC005",
@@ -54,10 +54,10 @@
     "preconditions": "On login page",
     "testData": "Username: admin, Password: completely_wrong_pass_999",
     "expected": "Error is displayed",
-    "actual": "Error: Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5021ms",
-    "status": "FAILED",
-    "evidence": "FAIL_TC005.png",
-    "error": "Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5021ms"
+    "actual": "Error displayed: \"⚠️\nInvalid username or password.\"",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC006",
@@ -66,10 +66,10 @@
     "preconditions": "On login page",
     "testData": "Username: \"\", Password: \"\"",
     "expected": "Validation appears",
-    "actual": "Error: Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5095ms",
-    "status": "FAILED",
-    "evidence": "FAIL_TC006.png",
-    "error": "Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5095ms"
+    "actual": "Validation message appeared: \"⚠️\nPlease enter your username.\"",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC007",
@@ -78,10 +78,10 @@
     "preconditions": "Logged in as Librarian",
     "testData": "Dashboard metrics elements",
     "expected": "Book, member and issue statistics appear",
-    "actual": "Error: Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5015ms",
-    "status": "FAILED",
-    "evidence": "FAIL_TC007.png",
-    "error": "Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5015ms"
+    "actual": "Stats verified: 8 books, 30 available, 5 members, 3 issued",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC008",
@@ -90,10 +90,10 @@
     "preconditions": "On dashboard",
     "testData": "Click #nav-tab-books",
     "expected": "Book catalogue opens",
-    "actual": "Error: Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5097ms",
-    "status": "FAILED",
-    "evidence": "FAIL_TC008.png",
-    "error": "Waiting for element to be located By(css selector, *[id=\"login-input-username\"])\nWait timed out after 5097ms"
+    "actual": "Book catalogue opened successfully",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC009",
@@ -150,7 +150,7 @@
     "preconditions": "Add Book form open",
     "testData": "Title: Clean Architecture, Author: Robert C. Martin, Copies: 3",
     "expected": "Book is saved",
-    "actual": "Valid new book saved and listed with ISBN 978-0130001898",
+    "actual": "Valid new book saved and listed with ISBN 978-0130007791",
     "status": "PASSED",
     "evidence": "-",
     "error": null
@@ -198,7 +198,7 @@
     "preconditions": "Add Member form open",
     "testData": "Name: Margaret Hamilton, Phone: 555-0421",
     "expected": "Member appears in the directory",
-    "actual": "Valid member registered with Code MEM-9338",
+    "actual": "Valid member registered with Code MEM-5976",
     "status": "PASSED",
     "evidence": "-",
     "error": null
@@ -222,10 +222,10 @@
     "preconditions": "Add Book form open",
     "testData": "Title: \"Valid Title\", Author: \"\"",
     "expected": "Required-field validation appears, if required by the form",
-    "actual": "Error: element click intercepted: Element <button type=\"button\" class=\"btn btn-primary\" id=\"btn-save-book\">...</button> is not clickable at point (821, 653). Other element would receive the click: <div id=\"notification-banner\" role=\"alert\" data-type=\"success\" class=\"active toast-success\">...</div>\n  (Session info: chrome=155.0.8059.85)",
-    "status": "FAILED",
-    "evidence": "FAIL_TC019.png",
-    "error": "element click intercepted: Element <button type=\"button\" class=\"btn btn-primary\" id=\"btn-save-book\">...</button> is not clickable at point (821, 653). Other element would receive the click: <div id=\"notification-banner\" role=\"alert\" data-type=\"success\" class=\"active toast-success\">...</div>\n  (Session info: chrome=155.0.8059.85)"
+    "actual": "Empty author rejected with message: \"Author is required and cannot be empty.\"",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC020",
@@ -234,10 +234,10 @@
     "preconditions": "Add Book form open",
     "testData": "ISBN: \"\"",
     "expected": "Submission is rejected if ISBN is mandatory",
-    "actual": "Error: Required ISBN validation should appear",
-    "status": "FAILED",
-    "evidence": "FAIL_TC020.png",
-    "error": "Required ISBN validation should appear"
+    "actual": "Empty ISBN rejected with message: \"ISBN is required and cannot be empty.\"",
+    "status": "PASSED",
+    "evidence": "-",
+    "error": null
   },
   {
     "id": "TC021",
@@ -414,7 +414,7 @@
     "preconditions": "Books tab open",
     "testData": "Integration Test Book",
     "expected": "Newly saved book appears",
-    "actual": "Saved and searched: \"Integration Test Book 1792583269925\" found in table",
+    "actual": "Saved and searched: \"Integration Test Book 1792588535195\" found in table",
     "status": "PASSED",
     "evidence": "-",
     "error": null

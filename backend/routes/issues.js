@@ -239,7 +239,12 @@ router.post('/return', (req, res) => {
         dueDate: tx.due_date,
         daysOverdue: Math.max(0, daysOverdue),
         fineAmount,
-        fineId
+        fineId,
+        fine: fineId ? {
+          fineId,
+          amount: fineAmount,
+          daysOverdue: Math.max(0, daysOverdue)
+        } : null
       };
     });
 

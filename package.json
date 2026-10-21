@@ -11,6 +11,9 @@
     "test:part-a": "node tests/run-tests.js --part=a",
     "test:part-b": "node tests/run-tests.js --part=b",
     "test:all": "node tests/run-tests.js --all",
+    "test:demo": "node tests/run-tests.js --headed",
+    "test:demo:a": "node tests/run-tests.js --part=a --headed",
+    "test:demo:b": "node tests/run-tests.js --part=b --headed",
     "test:api": "node tests/api-test.js",
     "test:selenium": "node tests/run-tests.js"
   },

@@ -15,6 +15,9 @@ const BASE_URL = `http://localhost:${TEST_PORT}`;
 // Parse CLI flags
 const args = process.argv.slice(2);
 let targetPart = 'all'; // 'a', 'b', or 'all'
+let isHeaded = false;
+let filterTestIds = null;
+
 for (const arg of args) {
   if (arg.startsWith('--part=')) {
     targetPart = arg.split('=')[1].toLowerCase();
@@ -24,6 +27,10 @@ for (const arg of args) {
     targetPart = 'b';
   } else if (arg === '--all') {
     targetPart = 'all';
+  } else if (arg === '--headed' || arg === '--demo') {
+    isHeaded = true;
+  } else if (arg.startsWith('--test=') || arg.startsWith('--id=')) {
+    filterTestIds = arg.split('=')[1].toUpperCase().split(',').map(s => s.trim());
   }
 }
 
@@ -32,7 +39,8 @@ async function run() {
   console.log('     ATHENA LIBRARY MANAGEMENT SYSTEM - 100 AUTOMATED TEST RUNNER       ');
   console.log('          DA3 Testing Assignment | JavaScript + Selenium WebDriver      ');
   console.log('========================================================================');
-  console.log(`Execution Scope: ${targetPart === 'all' ? 'ALL 100 TESTS (Part A + Part B)' : `PART ${targetPart.toUpperCase()} (50 Tests)`}\n`);
+  console.log(`Execution Scope: ${filterTestIds ? `Custom Test Filter (${filterTestIds.join(', ')})` : targetPart === 'all' ? 'ALL 100 TESTS (Part A + Part B)' : `PART ${targetPart.toUpperCase()} (50 Tests)`}`);
+  console.log(`Execution Mode : ${isHeaded ? 'LIVE VISUAL DEMO (Headed Chrome Window)' : 'HEADLESS (Background Execution)'}\n`);
 
   // 1. Reset Database
   console.log('[1/4] Seeding test database with pristine test state...');
@@ -47,10 +55,12 @@ async function run() {
     });
   });
 
-  // 3. Initialize Headless Chrome WebDriver
-  console.log('\n[3/4] Initializing Chrome WebDriver...');
+  // 3. Initialize Chrome WebDriver
+  console.log(`\n[3/4] Initializing Chrome WebDriver (${isHeaded ? 'Headed Window' : 'Headless'})...`);
   const options = new chrome.Options();
-  options.addArguments('--headless=new');
+  if (!isHeaded) {
+    options.addArguments('--headless=new');
+  }
   options.addArguments('--disable-gpu');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
@@ -63,6 +73,9 @@ async function run() {
 
   // Filter tests based on target scope
   const selectedTests = TEST_DEFINITIONS.filter(t => {
+    if (filterTestIds && filterTestIds.length > 0) {
+      return filterTestIds.includes(t.id);
+    }
     if (targetPart === 'a') return t.id.localeCompare('TC051') < 0;
     if (targetPart === 'b') return t.id.localeCompare('TC050') > 0;
     return true; // 'all'

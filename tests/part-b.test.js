@@ -116,8 +116,9 @@ class PartBTestSuite {
 
     await waitForElement(this.driver, By.id('modal-book'));
     const authorInput = await this.driver.findElement(By.id('book-input-author'));
+    const currentAuthor = await authorInput.getAttribute('value');
     await authorInput.clear();
-    await authorInput.sendKeys('Robert C. Martin (Updated)');
+    await authorInput.sendKeys(`${currentAuthor} (Updated)`);
     await this.driver.findElement(By.id('btn-save-book')).click();
     await sleep(500);
 
@@ -472,7 +473,7 @@ class PartBTestSuite {
     await waitForElement(this.driver, By.id('modal-book'));
     const isbnInput = await this.driver.findElement(By.id('book-input-isbn'));
     await isbnInput.clear();
-    await isbnInput.sendKeys('978-0451524935'); // 1984's ISBN
+    await isbnInput.sendKeys('978-0132350884'); // Clean Code's ISBN (existing book)
 
     const saveBtn = await this.driver.findElement(By.id('btn-save-book'));
     await saveBtn.click();
@@ -814,9 +815,9 @@ class PartBTestSuite {
     const beforeBook = await apiRequest(this.baseUrl, 'GET', '/api/books/1', null, token);
     const beforeAvail = beforeBook.data.data.available_copies;
 
-    // Fetch active issue for Carol Davis to return
+    // Fetch active issue for Carol Davis to return (Clean Code)
     const activeRes = await apiRequest(this.baseUrl, 'GET', '/api/issues/active', null, token);
-    const carolLoan = (activeRes.data.data || []).find(i => i.member_name.includes('Carol Davis'));
+    const carolLoan = (activeRes.data.data || []).find(i => i.member_name.includes('Carol Davis') && (i.book_id === 1 || i.book_title.includes('Clean Code')));
     if (carolLoan) {
       await apiRequest(this.baseUrl, 'POST', '/api/issues/return', {
         transaction_id: carolLoan.transaction_id
