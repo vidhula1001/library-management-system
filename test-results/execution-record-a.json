@@ -8,7 +8,8 @@
     "expected": "Application loads successfully",
     "actual": "Application loaded with title \"Athena LMS | Sign In\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC001.png",
+    "duration": "0.776",
     "error": null
   },
   {
@@ -21,6 +22,7 @@
     "actual": "Login form and credentials input are displayed",
     "status": "PASSED",
     "evidence": "TC002_login_form.png",
+    "duration": "1.213",
     "error": null
   },
   {
@@ -33,6 +35,7 @@
     "actual": "Librarian dashboard opened successfully",
     "status": "PASSED",
     "evidence": "TC003_dashboard_opened.png",
+    "duration": "1.835",
     "error": null
   },
   {
@@ -44,7 +47,8 @@
     "expected": "Login is rejected",
     "actual": "Login rejected with message: \"⚠️\nInvalid username or password.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC004.png",
+    "duration": "1.011",
     "error": null
   },
   {
@@ -56,7 +60,8 @@
     "expected": "Error is displayed",
     "actual": "Error displayed: \"⚠️\nInvalid username or password.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC005.png",
+    "duration": "1.093",
     "error": null
   },
   {
@@ -68,7 +73,8 @@
     "expected": "Validation appears",
     "actual": "Validation message appeared: \"⚠️\nPlease enter your username.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC006.png",
+    "duration": "0.771",
     "error": null
   },
   {
@@ -80,7 +86,8 @@
     "expected": "Book, member and issue statistics appear",
     "actual": "Stats verified: 8 books, 30 available, 5 members, 3 issued",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC007.png",
+    "duration": "1.210",
     "error": null
   },
   {
@@ -92,7 +99,8 @@
     "expected": "Book catalogue opens",
     "actual": "Book catalogue opened successfully",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC008.png",
+    "duration": "0.539",
     "error": null
   },
   {
@@ -104,7 +112,8 @@
     "expected": "Member directory opens",
     "actual": "Member directory opened successfully",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC009.png",
+    "duration": "0.532",
     "error": null
   },
   {
@@ -116,7 +125,8 @@
     "expected": "Circulation interface opens",
     "actual": "Circulation interface opened successfully",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC010.png",
+    "duration": "0.531",
     "error": null
   },
   {
@@ -128,7 +138,8 @@
     "expected": "Fine management opens",
     "actual": "Fine management interface opened successfully",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC011.png",
+    "duration": "0.529",
     "error": null
   },
   {
@@ -140,7 +151,8 @@
     "expected": "Book form is displayed",
     "actual": "Add Book modal form is displayed",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC012.png",
+    "duration": "0.771",
     "error": null
   },
   {
@@ -150,9 +162,10 @@
     "preconditions": "Add Book form open",
     "testData": "Title: Clean Architecture, Author: Robert C. Martin, Copies: 3",
     "expected": "Book is saved",
-    "actual": "Valid new book saved and listed with ISBN 978-0130007791",
+    "actual": "Valid new book saved and listed with ISBN 978-0130007767",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC013.png",
+    "duration": "0.941",
     "error": null
   },
   {
@@ -164,7 +177,8 @@
     "expected": "Matching record appears",
     "actual": "Found matching book \"The Pragmatic Programmer\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC014.png",
+    "duration": "0.594",
     "error": null
   },
   {
@@ -176,7 +190,8 @@
     "expected": "Catalogue returns to its normal listing",
     "actual": "Search cleared and full catalogue listing restored",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC015.png",
+    "duration": "0.572",
     "error": null
   },
   {
@@ -188,7 +203,8 @@
     "expected": "Member form is displayed",
     "actual": "Add Member modal form is displayed",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC016.png",
+    "duration": "0.771",
     "error": null
   },
   {
@@ -198,9 +214,10 @@
     "preconditions": "Add Member form open",
     "testData": "Name: Margaret Hamilton, Phone: 555-0421",
     "expected": "Member appears in the directory",
-    "actual": "Valid member registered with Code MEM-5976",
+    "actual": "Valid member registered with Code MEM-4585",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC017.png",
+    "duration": "0.905",
     "error": null
   },
   {
@@ -212,7 +229,8 @@
     "expected": "Submission is rejected",
     "actual": "Empty title rejected with message: \"Book title is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC018.png",
+    "duration": "0.999",
     "error": null
   },
   {
@@ -224,7 +242,8 @@
     "expected": "Required-field validation appears, if required by the form",
     "actual": "Empty author rejected with message: \"Author is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC019.png",
+    "duration": "0.499",
     "error": null
   },
   {
@@ -236,7 +255,8 @@
     "expected": "Submission is rejected if ISBN is mandatory",
     "actual": "Empty ISBN rejected with message: \"ISBN is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC020.png",
+    "duration": "0.489",
     "error": null
   },
   {
@@ -248,7 +268,8 @@
     "expected": "Duplicate ISBN is rejected",
     "actual": "Duplicate ISBN rejected: \"A book with ISBN \"978-0132350884\" already exists in the system\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC021.png",
+    "duration": "0.860",
     "error": null
   },
   {
@@ -260,7 +281,8 @@
     "expected": "Input is handled without crashing",
     "actual": "Input handled long string (440 chars) safely without crashing",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC022.png",
+    "duration": "0.736",
     "error": null
   },
   {
@@ -272,7 +294,8 @@
     "expected": "Catalogue handles the empty query correctly",
     "actual": "Empty search query handled safely, table rendered properly",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC023.png",
+    "duration": "0.478",
     "error": null
   },
   {
@@ -284,7 +307,8 @@
     "expected": "No matching records are reported",
     "actual": "Nonexistent title returned zero matching records as expected",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC024.png",
+    "duration": "0.815",
     "error": null
   },
   {
@@ -296,7 +320,8 @@
     "expected": "Input is handled safely",
     "actual": "Special characters search handled safely without SQL/DOM errors",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC025.png",
+    "duration": "0.718",
     "error": null
   },
   {
@@ -308,7 +333,8 @@
     "expected": "Registration is rejected",
     "actual": "Empty code rejected: \"Member Code / ID is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC026.png",
+    "duration": "1.006",
     "error": null
   },
   {
@@ -320,7 +346,8 @@
     "expected": "Required-field validation appears, if mandatory",
     "actual": "Empty name rejected: \"Member name is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC027.png",
+    "duration": "0.392",
     "error": null
   },
   {
@@ -332,7 +359,8 @@
     "expected": "Email validation rejects the value",
     "actual": "Invalid email rejected: \"Please provide a valid email format (e.g. name@example.com).\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC028.png",
+    "duration": "0.399",
     "error": null
   },
   {
@@ -344,7 +372,8 @@
     "expected": "Submission is rejected if email is mandatory",
     "actual": "Empty email rejected: \"Email address is required.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC029.png",
+    "duration": "0.368",
     "error": null
   },
   {
@@ -356,7 +385,8 @@
     "expected": "Duplicate code is rejected",
     "actual": "Duplicate member code rejected: \"Member ID / Code \"MEM-1001\" is already in use by another member\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC030.png",
+    "duration": "0.903",
     "error": null
   },
   {
@@ -368,7 +398,8 @@
     "expected": "Input is handled without breaking the form",
     "actual": "Handled unusually long name (240 chars) without breaking the form",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC031.png",
+    "duration": "0.683",
     "error": null
   },
   {
@@ -380,7 +411,8 @@
     "expected": "Validation follows the application's rules",
     "actual": "Phone field input \"ABC-PHONE-XYZ\" handled per application specifications",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC032.png",
+    "duration": "0.617",
     "error": null
   },
   {
@@ -392,7 +424,8 @@
     "expected": "Submission is rejected",
     "actual": "Issue rejected without book selection: \"Please select a book to issue.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC033.png",
+    "duration": "0.877",
     "error": null
   },
   {
@@ -404,7 +437,8 @@
     "expected": "Issue is rejected",
     "actual": "Out-of-stock books are prevented from issue per inventory rules",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC034.png",
+    "duration": "0.159",
     "error": null
   },
   {
@@ -414,9 +448,10 @@
     "preconditions": "Books tab open",
     "testData": "Integration Test Book",
     "expected": "Newly saved book appears",
-    "actual": "Saved and searched: \"Integration Test Book 1792588535195\" found in table",
+    "actual": "Saved and searched: \"Integration Test Book 1793297650008\" found in table",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC035.png",
+    "duration": "1.973",
     "error": null
   },
   {
@@ -428,7 +463,8 @@
     "expected": "Book remains saved",
     "actual": "Book persists across browser reloads",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC036.png",
+    "duration": "1.186",
     "error": null
   },
   {
@@ -440,7 +476,8 @@
     "expected": "Total book count updates as designed",
     "actual": "Dashboard total titles updated to 10",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC037.png",
+    "duration": "0.524",
     "error": null
   },
   {
@@ -452,7 +489,8 @@
     "expected": "Correct book is returned",
     "actual": "Search by ISBN 978-0201633610 returned Design Patterns",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC038.png",
+    "duration": "0.984",
     "error": null
   },
   {
@@ -464,7 +502,8 @@
     "expected": "No duplicate record is created",
     "actual": "Rejected duplicate ISBN, verified no record was created",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC039.png",
+    "duration": "1.476",
     "error": null
   },
   {
@@ -476,7 +515,8 @@
     "expected": "Correct member is returned",
     "actual": "Member search by code MEM-1002 returned Bob Smith",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC040.png",
+    "duration": "1.218",
     "error": null
   },
   {
@@ -488,7 +528,8 @@
     "expected": "Member remains saved",
     "actual": "Member directory persists on reload",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC041.png",
+    "duration": "1.075",
     "error": null
   },
   {
@@ -500,7 +541,8 @@
     "expected": "Invalid member is not saved",
     "actual": "Invalid member was rejected and not stored in directory",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC042.png",
+    "duration": "1.020",
     "error": null
   },
   {
@@ -512,7 +554,8 @@
     "expected": "Issue record appears",
     "actual": "Book issued and verified in active issues table",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC043.png",
+    "duration": "1.265",
     "error": null
   },
   {
@@ -522,9 +565,10 @@
     "preconditions": "Book issued",
     "testData": "Catalog available copies check",
     "expected": "Availability updates correctly",
-    "actual": "Available copies count verified: decremented to 5",
+    "actual": "Available copies count verified in catalog",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC044.png",
+    "duration": "0.984",
     "error": null
   },
   {
@@ -534,9 +578,10 @@
     "preconditions": "Active loan present",
     "testData": "Re-issue same book to same member",
     "expected": "Duplicate active issue is prevented",
-    "actual": "Duplicate active loan prevented: \"Member \"Emma Watson\" already has an active unreturned copy of \"Introduction to Algorithms (CLRS)\"\"",
+    "actual": "Duplicate active loan prevented: \"Member \"Alice Johnson\" already has an active unreturned copy of \"Clean Code: A Handbook of Agile Software Craftsmanship\"\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC045.png",
+    "duration": "1.019",
     "error": null
   },
   {
@@ -548,7 +593,8 @@
     "expected": "Returned loan is no longer active",
     "actual": "Returned loan no longer appears in active issues table",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC046.png",
+    "duration": "1.382",
     "error": null
   },
   {
@@ -560,7 +606,8 @@
     "expected": "Availability updates correctly",
     "actual": "Available count incremented back to 6 copies",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC047.png",
+    "duration": "1.008",
     "error": null
   },
   {
@@ -570,9 +617,10 @@
     "preconditions": "Book returned",
     "testData": "Transaction history tab",
     "expected": "Return details are recorded",
-    "actual": "Circulation history records Emma Watson return with status RETURNED",
+    "actual": "Circulation history records return with status RETURNED",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC048.png",
+    "duration": "0.534",
     "error": null
   },
   {
@@ -584,7 +632,8 @@
     "expected": "Saved settings persist",
     "actual": "Fine settings updated and persisted across reload ($4.25/day)",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC049.png",
+    "duration": "1.938",
     "error": null
   },
   {
@@ -596,7 +645,8 @@
     "expected": "Transaction data matches the completed operation",
     "actual": "Transaction ledger accurately reflects all completed operations",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC050.png",
+    "duration": "0.527",
     "error": null
   }
 ]

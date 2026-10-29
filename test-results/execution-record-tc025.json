@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC025",
+    "category": "Part A - Boundary & Edge",
+    "name": "Search using special characters",
+    "preconditions": "On Books tab",
+    "testData": "Query: \"!@#$%^&*()_+<>?:\"{}|\"",
+    "expected": "Input is handled safely",
+    "actual": "Special characters search handled safely without SQL/DOM errors",
+    "status": "PASSED",
+    "evidence": "TC025.png",
+    "duration": "2.488",
+    "error": null
+  }
+]

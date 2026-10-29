@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC085",
+    "category": "Part B - Integration",
+    "name": "Edit a book and refresh the page",
+    "preconditions": "Book edited",
+    "testData": "Page reload",
+    "expected": "Updated details persist",
+    "actual": "Updated book details persisted across page refresh",
+    "status": "PASSED",
+    "evidence": "TC085.png",
+    "duration": "3.028",
+    "error": null
+  }
+]

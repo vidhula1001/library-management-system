@@ -111,6 +111,91 @@ async function logout(driver, baseUrl) {
   await sleep(200);
 }
 
+// Close any open modals to ensure a clean state
+async function closeAnyModal(driver) {
+  try {
+    await driver.executeScript(`
+      document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active'));
+    `);
+    await sleep(100);
+  } catch {}
+}
+
+// Ensure librarian is logged in before performing operations
+async function ensureLibrarianLoggedIn(driver, baseUrl) {
+  try {
+    const url = await driver.getCurrentUrl();
+    if (url.includes('/index.html')) {
+      const userChip = await driver.findElement(By.id('top-bar-user-chip'));
+      const chipText = await userChip.getText();
+      if (chipText.toLowerCase().includes('librarian') || chipText.toLowerCase().includes('admin')) {
+        return;
+      }
+    }
+  } catch {}
+  await loginAsLibrarian(driver, baseUrl, 'admin', 'admin123');
+}
+
+// Ensure user is on a specific tab in the librarian view
+async function ensureTab(driver, baseUrl, tabName) {
+  await closeAnyModal(driver);
+  await ensureLibrarianLoggedIn(driver, baseUrl);
+  try {
+    const section = await driver.findElement(By.id(`section-${tabName}`));
+    if (await section.isDisplayed()) {
+      return;
+    }
+  } catch {}
+  const tab = await waitForElement(driver, By.id(`nav-tab-${tabName}`));
+  await tab.click();
+  await waitForElement(driver, By.id(`section-${tabName}`));
+  await sleep(150);
+}
+
+// Ensure login page is displayed
+async function ensureLoginPage(driver, baseUrl) {
+  try {
+    const url = await driver.getCurrentUrl();
+    if (url.includes('login.html')) {
+      const form = await driver.findElement(By.id('form-login'));
+      if (await form.isDisplayed()) return;
+    }
+  } catch {}
+  await driver.get(`${baseUrl}/login.html`);
+  await waitForElement(driver, By.id('form-login'), 5000);
+  await sleep(200);
+}
+
+// Ensure add book modal is open
+async function ensureAddBookModalOpen(driver, baseUrl) {
+  if (baseUrl) {
+    await ensureTab(driver, baseUrl, 'books');
+  }
+  try {
+    const modal = await driver.findElement(By.id('modal-book'));
+    if (await modal.isDisplayed()) return;
+  } catch {}
+  const btn = await waitForElement(driver, By.id('btn-open-add-book-modal'));
+  await btn.click();
+  await waitForElement(driver, By.id('modal-book'));
+  await sleep(150);
+}
+
+// Ensure add member modal is open
+async function ensureAddMemberModalOpen(driver, baseUrl) {
+  if (baseUrl) {
+    await ensureTab(driver, baseUrl, 'members');
+  }
+  try {
+    const modal = await driver.findElement(By.id('modal-member'));
+    if (await modal.isDisplayed()) return;
+  } catch {}
+  const btn = await waitForElement(driver, By.id('btn-open-add-member-modal'));
+  await btn.click();
+  await waitForElement(driver, By.id('modal-member'));
+  await sleep(150);
+}
+
 module.exports = {
   waitForElement,
   waitForText,
@@ -119,5 +204,11 @@ module.exports = {
   loginAsLibrarian,
   loginAsMember,
   logout,
+  closeAnyModal,
+  ensureLibrarianLoggedIn,
+  ensureTab,
+  ensureLoginPage,
+  ensureAddBookModalOpen,
+  ensureAddMemberModalOpen,
   SCREENSHOT_DIR
 };

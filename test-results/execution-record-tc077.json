@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC077",
+    "category": "Part B - Boundary & Edge",
+    "name": "Search using a very long string",
+    "preconditions": "Books catalog open",
+    "testData": "500-char search string",
+    "expected": "Application remains responsive",
+    "actual": "Application remained responsive with 500-character search string",
+    "status": "PASSED",
+    "evidence": "TC077.png",
+    "duration": "3.014",
+    "error": null
+  }
+]

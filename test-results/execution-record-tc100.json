@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC100",
+    "category": "Part B - Integration",
+    "name": "Verify database state after a complete issue-and-return journey",
+    "preconditions": "Issue and return completed",
+    "testData": "Full DB state consistency",
+    "expected": "Book, loan, history and inventory records remain consistent",
+    "actual": "Database state verified consistent across all entities",
+    "status": "PASSED",
+    "evidence": "TC100_database_consistency.png",
+    "duration": "1.704",
+    "error": null
+  }
+]

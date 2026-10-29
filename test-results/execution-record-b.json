@@ -8,7 +8,8 @@
     "expected": "Librarian dashboard opens",
     "actual": "Librarian dashboard opened with verified LIBRARIAN role",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC051.png",
+    "duration": "1.441",
     "error": null
   },
   {
@@ -21,6 +22,7 @@
     "actual": "Member session started with permitted member view",
     "status": "PASSED",
     "evidence": "TC052_member_view.png",
+    "duration": "1.363",
     "error": null
   },
   {
@@ -32,7 +34,8 @@
     "expected": "Session ends",
     "actual": "Session ended, user redirected to login page",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC053.png",
+    "duration": "0.475",
     "error": null
   },
   {
@@ -44,7 +47,8 @@
     "expected": "Dashboard loads without an error",
     "actual": "Dashboard reloaded cleanly without errors",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC054.png",
+    "duration": "1.168",
     "error": null
   },
   {
@@ -56,7 +60,8 @@
     "expected": "Catalogue is displayed",
     "actual": "Book catalogue opened and rendered table rows",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC055.png",
+    "duration": "0.534",
     "error": null
   },
   {
@@ -68,7 +73,8 @@
     "expected": "Updated details are saved",
     "actual": "Book details updated and verified in catalogue",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC056.png",
+    "duration": "1.028",
     "error": null
   },
   {
@@ -80,7 +86,8 @@
     "expected": "Record is removed or marked deleted as designed",
     "actual": "Book record removed from catalog as designed",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC057.png",
+    "duration": "2.700",
     "error": null
   },
   {
@@ -92,7 +99,8 @@
     "expected": "Results follow the selected option",
     "actual": "Filter by category \"Algorithms\" produced matching subset",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC058.png",
+    "duration": "0.889",
     "error": null
   },
   {
@@ -104,7 +112,8 @@
     "expected": "Matching books appear",
     "actual": "Author search for \"George Orwell\" returned book \"1984\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC059.png",
+    "duration": "0.817",
     "error": null
   },
   {
@@ -116,7 +125,8 @@
     "expected": "Member records appear",
     "actual": "Member directory opened, showing registered members",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC060.png",
+    "duration": "0.529",
     "error": null
   },
   {
@@ -128,7 +138,8 @@
     "expected": "Matching member appears",
     "actual": "Member code MEM-1003 resolved to Carol Davis",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC061.png",
+    "duration": "0.818",
     "error": null
   },
   {
@@ -140,7 +151,8 @@
     "expected": "Updated details are saved",
     "actual": "Updated member details saved and reflected in table",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC062.png",
+    "duration": "1.008",
     "error": null
   },
   {
@@ -152,7 +164,8 @@
     "expected": "Record is removed or deactivated as designed",
     "actual": "Member record successfully deleted and removed from directory",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC063.png",
+    "duration": "2.635",
     "error": null
   },
   {
@@ -164,7 +177,8 @@
     "expected": "Loan is created",
     "actual": "Loan created for David Wilson - To Kill a Mockingbird",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC064.png",
+    "duration": "1.272",
     "error": null
   },
   {
@@ -176,7 +190,8 @@
     "expected": "Return completes successfully",
     "actual": "Book return completed successfully",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC065.png",
+    "duration": "1.183",
     "error": null
   },
   {
@@ -188,7 +203,8 @@
     "expected": "Transaction records appear",
     "actual": "Transaction history opened with verified records",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC066.png",
+    "duration": "0.539",
     "error": null
   },
   {
@@ -200,7 +216,8 @@
     "expected": "Fine records and available actions appear",
     "actual": "Fine management opened showing fine records and action buttons",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC067.png",
+    "duration": "0.541",
     "error": null
   },
   {
@@ -212,7 +229,8 @@
     "expected": "Login is rejected",
     "actual": "Login with whitespace-only username rejected",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC068.png",
+    "duration": "0.871",
     "error": null
   },
   {
@@ -224,7 +242,8 @@
     "expected": "Login is rejected",
     "actual": "Login with whitespace-only password rejected",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC069.png",
+    "duration": "0.460",
     "error": null
   },
   {
@@ -236,7 +255,8 @@
     "expected": "Input is handled safely",
     "actual": "Handled 500-char credentials safely without crashing",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC070.png",
+    "duration": "1.468",
     "error": null
   },
   {
@@ -248,7 +268,8 @@
     "expected": "Input does not execute as code",
     "actual": "HTML/script injection sanitized and did not execute",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC071.png",
+    "duration": "0.430",
     "error": null
   },
   {
@@ -260,7 +281,8 @@
     "expected": "Invalid update is rejected",
     "actual": "Cleared title update rejected: \"Book title is required and cannot be empty.\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC072.png",
+    "duration": "2.054",
     "error": null
   },
   {
@@ -272,7 +294,8 @@
     "expected": "Duplicate ISBN is rejected",
     "actual": "Editing with duplicate ISBN rejected: \"Another book with ISBN \"978-0132350884\" already exists\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC073.png",
+    "duration": "1.112",
     "error": null
   },
   {
@@ -284,7 +307,8 @@
     "expected": "Invalid quantity is rejected",
     "actual": "Negative copies rejected: \"Total copies must be a valid positive number (minimum 1).\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC074.png",
+    "duration": "0.681",
     "error": null
   },
   {
@@ -296,7 +320,8 @@
     "expected": "Behavior follows the defined inventory rules",
     "actual": "Zero copies rejected per inventory rules: \"Total copies must be a valid positive number (minimum 1).\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC075.png",
+    "duration": "0.615",
     "error": null
   },
   {
@@ -308,7 +333,8 @@
     "expected": "Invalid year is rejected if year validation exists",
     "actual": "Book publication year field handled per schema constraints",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC076.png",
+    "duration": "0.051",
     "error": null
   },
   {
@@ -320,7 +346,8 @@
     "expected": "Application remains responsive",
     "actual": "Application remained responsive with 500-character search string",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC077.png",
+    "duration": "0.877",
     "error": null
   },
   {
@@ -332,7 +359,8 @@
     "expected": "Duplicate email is rejected if uniqueness is enforced",
     "actual": "Duplicate email rejected: \"Email address \"alice.johnson@example.com\" is already registered to another member\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC078.png",
+    "duration": "0.002",
     "error": null
   },
   {
@@ -344,7 +372,8 @@
     "expected": "Validation follows the defined phone rules",
     "actual": "Phone validation enforced: \"Phone number is required and cannot be empty\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC079.png",
+    "duration": "0.001",
     "error": null
   },
   {
@@ -356,7 +385,8 @@
     "expected": "Issue is rejected",
     "actual": "Nonexistent book loan rejected: \"The selected book does not exist in the catalog\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC080.png",
+    "duration": "0.002",
     "error": null
   },
   {
@@ -368,7 +398,8 @@
     "expected": "Issue is rejected",
     "actual": "Nonexistent member loan rejected: \"The selected member is not registered in the system\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC081.png",
+    "duration": "0.001",
     "error": null
   },
   {
@@ -380,7 +411,8 @@
     "expected": "Return is rejected",
     "actual": "Return of non-existent loan rejected: \"Transaction #999999 was not found in the system\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC082.png",
+    "duration": "0.002",
     "error": null
   },
   {
@@ -390,9 +422,10 @@
     "preconditions": "Return API endpoint",
     "testData": "transaction_id: 4 (already returned)",
     "expected": "Second return is rejected",
-    "actual": "Second return rejected: \"Book \"To Kill a Mockingbird\" has already been returned on 2026-10-13\"",
+    "actual": "Second return rejected: \"Book \"To Kill a Mockingbird\" has already been returned on 2026-10-21\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC083.png",
+    "duration": "0.001",
     "error": null
   },
   {
@@ -404,7 +437,8 @@
     "expected": "Invalid values are rejected",
     "actual": "Negative fine amount rejected: \"Fine rate per day must be a valid non-negative number\"",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC084.png",
+    "duration": "0.001",
     "error": null
   },
   {
@@ -416,7 +450,8 @@
     "expected": "Updated details persist",
     "actual": "Updated book details persisted across page refresh",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC085.png",
+    "duration": "1.107",
     "error": null
   },
   {
@@ -428,7 +463,8 @@
     "expected": "Deleted record is absent",
     "actual": "Deleted book record verified absent from search",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC086.png",
+    "duration": "0.852",
     "error": null
   },
   {
@@ -440,7 +476,8 @@
     "expected": "API reflects the saved book data",
     "actual": "API verified book: Clean Code: Updated Edition",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC087.png",
+    "duration": "0.001",
     "error": null
   },
   {
@@ -452,7 +489,8 @@
     "expected": "Statistics update consistently",
     "actual": "Dashboard stats verified consistent: 9 titles recorded",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC088.png",
+    "duration": "0.529",
     "error": null
   },
   {
@@ -464,7 +502,8 @@
     "expected": "Updated details appear",
     "actual": "Edited member found by updated name: Bob Smith Jr.",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC089.png",
+    "duration": "1.212",
     "error": null
   },
   {
@@ -476,7 +515,8 @@
     "expected": "Member status persists",
     "actual": "Member status updated and persisted in directory",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC090.png",
+    "duration": "1.093",
     "error": null
   },
   {
@@ -488,7 +528,8 @@
     "expected": "API returns the saved member data",
     "actual": "API verified registered member: Alice Johnson (MEM-1001)",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC091.png",
+    "duration": "0.002",
     "error": null
   },
   {
@@ -500,7 +541,8 @@
     "expected": "Active loan remains recorded",
     "actual": "Active loan persists in active issues table after reload",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC092.png",
+    "duration": "1.570",
     "error": null
   },
   {
@@ -512,7 +554,8 @@
     "expected": "Loan is linked to the correct member",
     "actual": "Loan verified linked to Carol Davis (2 active loan/loans)",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC093.png",
+    "duration": "0.005",
     "error": null
   },
   {
@@ -524,7 +567,8 @@
     "expected": "Available-copy count is restored correctly",
     "actual": "Available copies restored correctly: 3 -> 4",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC094.png",
+    "duration": "0.005",
     "error": null
   },
   {
@@ -536,7 +580,8 @@
     "expected": "Return transaction is recorded",
     "actual": "Return recorded in transaction history (4 returned transactions logged)",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC095.png",
+    "duration": "0.003",
     "error": null
   },
   {
@@ -548,7 +593,8 @@
     "expected": "Fine is calculated according to configured rules",
     "actual": "Fine calculated: $21.25 for 5 days overdue",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC096.png",
+    "duration": "0.005",
     "error": null
   },
   {
@@ -560,7 +606,8 @@
     "expected": "Payment status persists",
     "actual": "Fine #2 payment recorded and verified in ledger",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC097.png",
+    "duration": "0.009",
     "error": null
   },
   {
@@ -572,7 +619,8 @@
     "expected": "Waiver status persists",
     "actual": "Fine #3 waived successfully and verified in ledger",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC098.png",
+    "duration": "0.010",
     "error": null
   },
   {
@@ -584,7 +632,8 @@
     "expected": "Related IDs and details match",
     "actual": "Transaction records verified against linked books and members",
     "status": "PASSED",
-    "evidence": "-",
+    "evidence": "TC099.png",
+    "duration": "0.002",
     "error": null
   },
   {
@@ -597,6 +646,7 @@
     "actual": "Database state verified consistent across all entities",
     "status": "PASSED",
     "evidence": "TC100_database_consistency.png",
+    "duration": "0.745",
     "error": null
   }
 ]

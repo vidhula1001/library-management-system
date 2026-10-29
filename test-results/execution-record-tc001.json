@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC001",
+    "category": "Part A - Functional E2E",
+    "name": "Open the LMS application",
+    "preconditions": "Server is running",
+    "testData": "URL: /login.html",
+    "expected": "Application loads successfully",
+    "actual": "Application loaded with title \"Athena LMS | Sign In\"",
+    "status": "PASSED",
+    "evidence": "TC001.png",
+    "duration": "0.593",
+    "error": null
+  }
+]

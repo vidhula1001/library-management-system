@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC051",
+    "category": "Part B - Functional E2E",
+    "name": "Log in using valid librarian credentials",
+    "preconditions": "On login page",
+    "testData": "Role: Librarian, User: admin",
+    "expected": "Librarian dashboard opens",
+    "actual": "Librarian dashboard opened with verified LIBRARIAN role",
+    "status": "PASSED",
+    "evidence": "TC051.png",
+    "duration": "1.423",
+    "error": null
+  }
+]

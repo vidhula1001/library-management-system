@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Athena LMS Automation Suite" tests="1" failures="0" errors="0" skipped="0">
+  <testsuite name="Custom Test Filter (TC001)" tests="1" failures="0" errors="0" skipped="0" timestamp="2026-10-29T18:13:06.679Z">
+    <testcase classname="Part A - Functional E2E" name="TC001: Open the LMS application" time="0.593">
+    </testcase>
+  </testsuite>
+</testsuites>

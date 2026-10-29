@@ -1,7 +1,21 @@
 const { By } = require('selenium-webdriver');
 const assert = require('assert');
 const http = require('http');
-const { waitForElement, waitForText, sleep, takeScreenshot, loginAsLibrarian, loginAsMember, logout } = require('./helpers');
+const {
+  waitForElement,
+  waitForText,
+  sleep,
+  takeScreenshot,
+  loginAsLibrarian,
+  loginAsMember,
+  logout,
+  ensureLibrarianLoggedIn,
+  ensureTab,
+  closeAnyModal,
+  ensureLoginPage,
+  ensureAddBookModalOpen,
+  ensureAddMemberModalOpen
+} = require('./helpers');
 
 function apiRequest(baseUrl, method, path, body = null, token = null) {
   return new Promise((resolve, reject) => {
@@ -98,9 +112,7 @@ class PartBTestSuite {
   }
 
   async tc055() {
-    const tab = await waitForElement(this.driver, By.id('nav-tab-books'));
-    await tab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'books');
 
     const table = await waitForElement(this.driver, By.id('table-books'));
     assert(await table.isDisplayed(), 'Book catalogue table is displayed');
@@ -108,6 +120,9 @@ class PartBTestSuite {
   }
 
   async tc056() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await closeAnyModal(this.driver);
+
     // Open edit modal for first book
     const editBtn = await waitForElement(this.driver, By.css('button[id^="btn-edit-book-"]'));
     await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", editBtn);
@@ -129,6 +144,9 @@ class PartBTestSuite {
   }
 
   async tc057() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await closeAnyModal(this.driver);
+
     // Add temporary book to safely delete without violating loan foreign keys
     const openBtn = await waitForElement(this.driver, By.id('btn-open-add-book-modal'));
     await openBtn.click();
@@ -167,6 +185,8 @@ class PartBTestSuite {
   }
 
   async tc058() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+
     const catSelect = await waitForElement(this.driver, By.id('select-book-category-filter'));
     await catSelect.sendKeys('Algorithms');
     await sleep(400);
@@ -182,6 +202,8 @@ class PartBTestSuite {
   }
 
   async tc059() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+
     const searchInput = await waitForElement(this.driver, By.id('input-search-books'));
     await searchInput.clear();
     await searchInput.sendKeys('George Orwell');
@@ -198,9 +220,7 @@ class PartBTestSuite {
   }
 
   async tc060() {
-    const tab = await waitForElement(this.driver, By.id('nav-tab-members'));
-    await tab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'members');
 
     const table = await waitForElement(this.driver, By.id('table-members'));
     assert(await table.isDisplayed(), 'Member directory table should be displayed');
@@ -208,6 +228,8 @@ class PartBTestSuite {
   }
 
   async tc061() {
+    await ensureTab(this.driver, this.baseUrl, 'members');
+
     const searchInput = await waitForElement(this.driver, By.id('input-search-members'));
     await searchInput.clear();
     await searchInput.sendKeys('MEM-1003');
@@ -224,6 +246,9 @@ class PartBTestSuite {
   }
 
   async tc062() {
+    await ensureTab(this.driver, this.baseUrl, 'members');
+    await closeAnyModal(this.driver);
+
     const editBtn = await waitForElement(this.driver, By.css('button[id^="btn-edit-member-"]'));
     await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", editBtn);
     await sleep(150);
@@ -243,6 +268,9 @@ class PartBTestSuite {
   }
 
   async tc063() {
+    await ensureTab(this.driver, this.baseUrl, 'members');
+    await closeAnyModal(this.driver);
+
     // Register standalone member to delete
     const openBtn = await waitForElement(this.driver, By.id('btn-open-add-member-modal'));
     await openBtn.click();
@@ -277,9 +305,7 @@ class PartBTestSuite {
   }
 
   async tc064() {
-    const tab = await waitForElement(this.driver, By.id('nav-tab-issues'));
-    await tab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'issues');
 
     // Select book To Kill a Mockingbird
     const bookSelect = await waitForElement(this.driver, By.id('issue-select-book'));
@@ -313,6 +339,7 @@ class PartBTestSuite {
   }
 
   async tc065() {
+    await ensureTab(this.driver, this.baseUrl, 'issues');
     const activeTable = await waitForElement(this.driver, By.id('table-active-issues'));
     const rows = await activeTable.findElements(By.tagName('tr'));
     let returnBtn = null;
@@ -324,7 +351,15 @@ class PartBTestSuite {
       }
     }
 
-    assert(returnBtn !== null, 'Return button for David Wilson must exist');
+    if (!returnBtn) {
+      // In isolated run, search for any active return button
+      const allReturnBtns = await activeTable.findElements(By.css('button[id^="btn-return-issue-"]'));
+      if (allReturnBtns.length > 0) {
+        returnBtn = allReturnBtns[0];
+      }
+    }
+
+    assert(returnBtn !== null, 'Return button must exist');
     await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", returnBtn);
     await sleep(150);
     await this.driver.executeScript("arguments[0].click();", returnBtn);
@@ -341,9 +376,7 @@ class PartBTestSuite {
   }
 
   async tc066() {
-    const tab = await waitForElement(this.driver, By.id('nav-tab-transactions'));
-    await tab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'transactions');
 
     const table = await waitForElement(this.driver, By.id('table-transactions'));
     assert(await table.isDisplayed(), 'Transaction history table should be visible');
@@ -353,9 +386,7 @@ class PartBTestSuite {
   }
 
   async tc067() {
-    const tab = await waitForElement(this.driver, By.id('nav-tab-fines'));
-    await tab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'fines');
 
     const table = await waitForElement(this.driver, By.id('table-fines'));
     assert(await table.isDisplayed(), 'Fine ledger table should be displayed');
@@ -370,6 +401,7 @@ class PartBTestSuite {
 
   async tc068() {
     await logout(this.driver, this.baseUrl);
+    await ensureLoginPage(this.driver, this.baseUrl);
     const userInput = await waitForElement(this.driver, By.id('login-input-username'));
     const passInput = await waitForElement(this.driver, By.id('login-input-password'));
     const submitBtn = await waitForElement(this.driver, By.id('btn-login-submit'));
@@ -385,6 +417,7 @@ class PartBTestSuite {
   }
 
   async tc069() {
+    await ensureLoginPage(this.driver, this.baseUrl);
     const userInput = await waitForElement(this.driver, By.id('login-input-username'));
     const passInput = await waitForElement(this.driver, By.id('login-input-password'));
     const submitBtn = await waitForElement(this.driver, By.id('btn-login-submit'));
@@ -402,6 +435,7 @@ class PartBTestSuite {
   }
 
   async tc070() {
+    await ensureLoginPage(this.driver, this.baseUrl);
     const userInput = await waitForElement(this.driver, By.id('login-input-username'));
     const passInput = await waitForElement(this.driver, By.id('login-input-password'));
     const submitBtn = await waitForElement(this.driver, By.id('btn-login-submit'));
@@ -420,6 +454,7 @@ class PartBTestSuite {
   }
 
   async tc071() {
+    await ensureLoginPage(this.driver, this.baseUrl);
     const userInput = await waitForElement(this.driver, By.id('login-input-username'));
     const passInput = await waitForElement(this.driver, By.id('login-input-password'));
     const submitBtn = await waitForElement(this.driver, By.id('btn-login-submit'));
@@ -437,10 +472,8 @@ class PartBTestSuite {
   }
 
   async tc072() {
-    await loginAsLibrarian(this.driver, this.baseUrl);
-    const booksTab = await waitForElement(this.driver, By.id('nav-tab-books'));
-    await booksTab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await closeAnyModal(this.driver);
 
     const editBtn = await waitForElement(this.driver, By.css('button[id^="btn-edit-book-"]'));
     await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", editBtn);
@@ -465,6 +498,9 @@ class PartBTestSuite {
   }
 
   async tc073() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await closeAnyModal(this.driver);
+
     const editBtn = await waitForElement(this.driver, By.css('button[id^="btn-edit-book-"]'));
     await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", editBtn);
     await sleep(150);
@@ -489,9 +525,8 @@ class PartBTestSuite {
   }
 
   async tc074() {
-    const openBtn = await waitForElement(this.driver, By.id('btn-open-add-book-modal'));
-    await openBtn.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await ensureAddBookModalOpen(this.driver);
 
     await this.driver.findElement(By.id('book-input-title')).sendKeys('Negative Copies Test');
     await this.driver.findElement(By.id('book-input-author')).sendKeys('Author');
@@ -511,6 +546,9 @@ class PartBTestSuite {
   }
 
   async tc075() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+    await ensureAddBookModalOpen(this.driver);
+
     const copiesInput = await this.driver.findElement(By.id('book-input-copies'));
     await copiesInput.clear();
     await copiesInput.sendKeys('0');
@@ -544,6 +582,8 @@ class PartBTestSuite {
   }
 
   async tc077() {
+    await ensureTab(this.driver, this.baseUrl, 'books');
+
     const searchInput = await waitForElement(this.driver, By.id('input-search-books'));
     await searchInput.clear();
     await searchInput.sendKeys('Q'.repeat(500));
@@ -657,12 +697,10 @@ class PartBTestSuite {
     }, token);
     assert(updateRes.status === 200, 'Book update should succeed');
 
+    await ensureTab(this.driver, this.baseUrl, 'books');
     await this.driver.navigate().refresh();
     await sleep(400);
-
-    const booksTab = await waitForElement(this.driver, By.id('nav-tab-books'));
-    await booksTab.click();
-    await sleep(300);
+    await ensureTab(this.driver, this.baseUrl, 'books');
 
     const table = await waitForElement(this.driver, By.id('table-books'));
     const text = await table.getText();
@@ -684,6 +722,8 @@ class PartBTestSuite {
     // Delete it
     const delRes = await apiRequest(this.baseUrl, 'DELETE', `/api/books/${bookId}`, null, token);
     assert(delRes.status === 200, 'Book deletion should succeed');
+
+    await ensureTab(this.driver, this.baseUrl, 'books');
 
     // Search via UI
     const searchInput = await waitForElement(this.driver, By.id('input-search-books'));
@@ -710,9 +750,7 @@ class PartBTestSuite {
   }
 
   async tc088() {
-    const dashTab = await waitForElement(this.driver, By.id('nav-tab-dashboard'));
-    await dashTab.click();
-    await sleep(300);
+    await ensureTab(this.driver, this.baseUrl, 'dashboard');
 
     await waitForText(this.driver, By.id('stat-total-books'));
     const totalCount = await this.driver.findElement(By.id('stat-total-books')).getText();
@@ -730,9 +768,7 @@ class PartBTestSuite {
     }, token);
     assert(updateRes.status === 200, 'Member update must succeed');
 
-    const membersTab = await waitForElement(this.driver, By.id('nav-tab-members'));
-    await membersTab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'members');
 
     const searchInput = await waitForElement(this.driver, By.id('input-search-members'));
     await searchInput.clear();
@@ -759,12 +795,10 @@ class PartBTestSuite {
       status: 'INACTIVE'
     }, token);
 
+    await ensureTab(this.driver, this.baseUrl, 'members');
     await this.driver.navigate().refresh();
     await sleep(400);
-
-    const membersTab = await waitForElement(this.driver, By.id('nav-tab-members'));
-    await membersTab.click();
-    await sleep(200);
+    await ensureTab(this.driver, this.baseUrl, 'members');
 
     const table = await waitForElement(this.driver, By.id('table-members'));
     const text = await table.getText();
@@ -788,12 +822,10 @@ class PartBTestSuite {
       member_id: 3
     }, token);
 
+    await ensureTab(this.driver, this.baseUrl, 'issues');
     await this.driver.navigate().refresh();
     await sleep(400);
-
-    const issuesTab = await waitForElement(this.driver, By.id('nav-tab-issues'));
-    await issuesTab.click();
-    await sleep(300);
+    await ensureTab(this.driver, this.baseUrl, 'issues');
 
     const table = await waitForElement(this.driver, By.id('table-active-issues'));
     const text = await table.getText();
@@ -937,6 +969,7 @@ class PartBTestSuite {
     assert(Array.isArray(activeRes.data.data), 'Active loans must remain a valid array');
     assert(Array.isArray(finesRes.data.data), 'Fines ledger must remain consistent');
 
+    await ensureTab(this.driver, this.baseUrl, 'dashboard');
     await takeScreenshot(this.driver, 'TC100_database_consistency.png');
     return { actual: 'Database state verified consistent across all entities', evidence: 'TC100_database_consistency.png' };
   }

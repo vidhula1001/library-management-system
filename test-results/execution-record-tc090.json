@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC090",
+    "category": "Part B - Integration",
+    "name": "Delete or deactivate a member and refresh the directory",
+    "preconditions": "Member status updated",
+    "testData": "Page reload",
+    "expected": "Member status persists",
+    "actual": "Member status updated and persisted in directory",
+    "status": "PASSED",
+    "evidence": "TC090.png",
+    "duration": "3.094",
+    "error": null
+  }
+]

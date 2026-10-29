@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Athena LMS Automation Suite" tests="50" failures="0" errors="0" skipped="0">
+  <testsuite name="PART A (50 Tests)" tests="50" failures="0" errors="0" skipped="0" timestamp="2026-10-29T18:14:33.460Z">
+    <testcase classname="Part A - Functional E2E" name="TC001: Open the LMS application" time="0.776">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC002: Open the librarian login page" time="1.213">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC003: Log in with valid librarian credentials" time="1.835">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC004: Log in with an invalid username" time="1.011">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC005: Log in with an incorrect password" time="1.093">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC006: Submit login with empty credentials" time="0.771">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC007: View dashboard statistics" time="1.210">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC008: Navigate to the Books tab" time="0.539">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC009: Navigate to the Members tab" time="0.532">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC010: Navigate to the Issues tab" time="0.531">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC011: Navigate to the Fines tab" time="0.529">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC012: Open the Add Book form" time="0.771">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC013: Add a valid new book" time="0.941">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC014: Search for an existing book" time="0.594">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC015: Clear the book search" time="0.572">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC016: Open the Add Member form" time="0.771">
+    </testcase>
+    <testcase classname="Part A - Functional E2E" name="TC017: Register a valid member" time="0.905">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC018: Add a book with an empty title" time="0.999">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC019: Add a book with an empty author" time="0.499">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC020: Add a book with an empty ISBN" time="0.489">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC021: Add a book with a duplicate ISBN" time="0.860">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC022: Enter a very long book title" time="0.736">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC023: Search using an empty query" time="0.478">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC024: Search for a nonexistent title" time="0.815">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC025: Search using special characters" time="0.718">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC026: Register a member with an empty member code" time="1.006">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC027: Register a member with an empty name" time="0.392">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC028: Register a member with an invalid email" time="0.399">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC029: Register a member with an empty email" time="0.368">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC030: Register a member with a duplicate member code" time="0.903">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC031: Enter an unusually long member name" time="0.683">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC032: Enter letters in a phone-number field" time="0.617">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC033: Submit an issue form without selecting a book" time="0.877">
+    </testcase>
+    <testcase classname="Part A - Boundary &amp; Edge" name="TC034: Attempt to issue a book with no available copies" time="0.159">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC035: Add a book and search for it" time="1.973">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC036: Add a book and refresh the catalogue" time="1.186">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC037: Add a book and verify dashboard statistics" time="0.524">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC038: Search by ISBN and verify the matching record" time="0.984">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC039: Reject a duplicate ISBN and recheck the catalogue" time="1.476">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC040: Register a member and search by member code" time="1.218">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC041: Register a member and refresh the directory" time="1.075">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC042: Reject an invalid email and inspect the directory" time="1.020">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC043: Issue a book and inspect the active-issues table" time="1.265">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC044: Issue a book and verify available-copy count" time="0.984">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC045: Attempt a duplicate active loan and inspect issue records" time="1.019">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC046: Return an issued book and inspect the active-issues table" time="1.382">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC047: Return a book and verify its availability" time="1.008">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC048: Return a book and inspect circulation history" time="0.534">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC049: Update fine settings and reload the settings" time="1.938">
+    </testcase>
+    <testcase classname="Part A - Integration" name="TC050: Perform a transaction and verify its recorded status" time="0.527">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TC092",
+    "category": "Part B - Integration",
+    "name": "Issue a book and refresh the page",
+    "preconditions": "Loan issued",
+    "testData": "Page reload",
+    "expected": "Active loan remains recorded",
+    "actual": "Active loan persists in active issues table after reload",
+    "status": "PASSED",
+    "evidence": "TC092.png",
+    "duration": "2.834",
+    "error": null
+  }
+]
